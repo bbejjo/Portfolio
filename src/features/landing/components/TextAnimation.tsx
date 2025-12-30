@@ -1,7 +1,12 @@
 "use client";
 
-import type { ComponentType, JSX } from "react";
-import { motion, type HTMLMotionProps, type Variants } from "framer-motion";
+import type { ComponentType } from "react";
+import {
+  motion,
+  type HTMLMotionProps,
+  type HTMLElements,
+  type Variants,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type Direction = "up" | "down" | "left" | "right";
@@ -44,7 +49,7 @@ const defaultViewport = { amount: 0.3, margin: "0px 0px 0px 0px" };
 type TextAnimationProps = {
   text: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof HTMLElements;
   viewport?: {
     amount?: number;
     margin?: string;
@@ -67,9 +72,10 @@ export function TextAnimation({
   lineAnimation = false,
 }: TextAnimationProps) {
   const baseVariants = variants ?? generateVariants(direction);
+  type MotionTag = keyof HTMLElements;
   const MotionComponent = motion[
-    as as keyof typeof motion
-  ] as ComponentType<HTMLMotionProps<HTMLElement>>;
+    as as MotionTag
+  ] as ComponentType<HTMLMotionProps<MotionTag>>;
   const words = text.split(" ");
 
   return (
