@@ -18,17 +18,19 @@ const containerVariants: Variants = {
 const generateVariants = (direction: Direction): Variants => {
   const axis = direction === "left" || direction === "right" ? "x" : "y";
   const value = direction === "right" || direction === "down" ? 40 : -40;
+  const axisOffset = axis === "x" ? { x: value } : { y: value };
+  const axisReset = axis === "x" ? { x: 0 } : { y: 0 };
 
   return {
     hidden: {
       filter: "blur(10px)",
       opacity: 0,
-      [axis]: value,
+      ...axisOffset,
     },
     visible: {
       filter: "blur(0px)",
       opacity: 1,
-      [axis]: 0,
+      ...axisReset,
       transition: {
         duration: 0.4,
         ease: "easeOut",
