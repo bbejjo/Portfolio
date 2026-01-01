@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { SectionFrame } from "./SectionFrame";
 import { SectionHeader } from "./SectionHeader";
 import { projects } from "../data/projects";
@@ -11,6 +11,9 @@ export function ProjectsSection() {
   const ref = useRef<HTMLElement | null>(null);
   const shouldReduceMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
+  const [activeProject, setActiveProject] = useState<
+    (typeof projects)[number] | null
+  >(null);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)");
@@ -25,6 +28,25 @@ export function ProjectsSection() {
     media.addListener(update);
     return () => media.removeListener(update);
   }, []);
+
+  useEffect(() => {
+    if (!activeProject) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveProject(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeProject]);
 
   const shouldAnimate = !shouldReduceMotion && !isMobile;
   const { scrollYProgress } = useScroll({
@@ -102,7 +124,16 @@ export function ProjectsSection() {
                 {projects.map((project) => (
                   <article
                     key={project.title}
-                    className="group mx-auto w-full max-w-xl rounded-3xl border border-white/10 bg-surface-2/70 p-6 transition hover:-translate-y-1 hover:border-accent/40 hover:bg-surface-2/90 md:mx-0 md:max-w-none"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setActiveProject(project)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setActiveProject(project);
+                      }
+                    }}
+                    className="group mx-auto w-full max-w-xl cursor-pointer rounded-3xl border border-white/10 bg-surface-2/70 p-6 text-left transition hover:-translate-y-1 hover:border-accent/40 hover:bg-surface-2/90 md:mx-0 md:max-w-none"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="font-display text-2xl font-semibold text-foreground">
@@ -132,6 +163,61 @@ export function ProjectsSection() {
           </SectionFrame>
         </motion.div>
       </div>
+      <AnimatePresence>
+        {activeProject ? (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-end justify-center bg-black/90"
+            onClick={() => setActiveProject(null)}
+            role="dialog"
+            aria-modal="true"
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
+          >
+            <motion.div
+              initial={
+                shouldReduceMotion ? { y: 0, opacity: 1 } : { y: "100%" }
+              }
+              animate={{ y: 0, opacity: 1 }}
+              exit={shouldReduceMotion ? { y: 0 } : { y: "100%" }}
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 180, damping: 26 }
+              }
+              className="h-[90vh] w-full overflow-hidden rounded-t-3xl border border-white/10 bg-surface-2/90 shadow-2xl will-change-transform"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex h-full flex-col">
+                <div className="flex items-center justify-end px-6 py-4">
+                  <a
+                    href={activeProject.link || "#"}
+                    aria-disabled={!activeProject.link}
+                    onClick={(event) => {
+                      if (!activeProject.link) {
+                        event.preventDefault();
+                      }
+                    }}
+                    className={`rounded-full border border-accent/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent transition ${
+                      activeProject.link
+                        ? "hover:bg-accent/10"
+                        : "cursor-not-allowed opacity-60"
+                    }`}
+                  >
+                    Visit website
+                  </a>
+                </div>
+                <div className="relative flex-1 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_80%_80%,_rgba(251,191,36,0.08),_transparent_40%)]">
+                  <span className="sr-only">
+                    {activeProject.title} preview
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }

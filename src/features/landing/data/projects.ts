@@ -3,6 +3,7 @@ export type Project = {
   description: string;
   stack: string[];
   focus: string;
+  link?: string;
 };
 
 export const projects: Project[] = [
@@ -12,6 +13,7 @@ export const projects: Project[] = [
       "Global storefront redesign with cinematic product storytelling and realtime inventory visibility.",
     stack: ["Next.js", "TypeScript", "Stripe", "GraphQL"],
     focus: "Conversion +38%",
+    link: "",
   },
   {
     title: "SignalOS",
@@ -19,6 +21,7 @@ export const projects: Project[] = [
       "Operational intelligence dashboard that unifies alerts, incidents, and analytics in one timeline.",
     stack: ["React", "Framer Motion", "Node.js", "PostgreSQL"],
     focus: "Response time -42%",
+    link: "",
   },
   {
     title: "Aurora Health",
@@ -26,6 +29,7 @@ export const projects: Project[] = [
       "Care coordination platform with accessibility-first UX and personalized patient journeys.",
     stack: ["Next.js", "Tailwind", "FHIR", "Vercel"],
     focus: "NPS +18",
+    link: "",
   },
   {
     title: "Northwind Labs",
@@ -33,5 +37,6 @@ export const projects: Project[] = [
       "R&D microsite showcasing product pipelines with immersive visuals and crisp storytelling.",
     stack: ["Three.js", "Framer Motion", "Contentful", "Vercel"],
     focus: "Award finalist",
+    link: "",
   },
 ];

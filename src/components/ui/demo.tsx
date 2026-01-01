@@ -51,6 +51,10 @@ const ASMRStaticBackground = ({
     const MAGNETIC_RADIUS = 280;
     const VORTEX_STRENGTH = 0.07;
     const PULL_STRENGTH = 0.12;
+    const EDGE_PADDING = 24;
+
+    const clamp = (value: number, min: number, max: number) =>
+      Math.min(Math.max(value, min), max);
 
     class Particle {
       x = 0;
@@ -156,15 +160,15 @@ const ASMRStaticBackground = ({
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
 
       const dpr = Math.max(1, window.devicePixelRatio || 1);
-      canvas.width = Math.max(1, Math.ceil(width * dpr));
-      canvas.height = Math.max(1, Math.ceil(height * dpr));
+      canvas.width = Math.max(1, Math.ceil(rect.width * dpr));
+      canvas.height = Math.max(1, Math.ceil(rect.height * dpr));
       canvas.style.width = "100%";
       canvas.style.height = "100%";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      width = canvas.width / dpr;
+      height = canvas.height / dpr;
     };
 
     const init = () => {
@@ -200,9 +204,17 @@ const ASMRStaticBackground = ({
         return;
       }
 
-      mouse.x = x;
-      mouse.y = y;
-      setMouseVars(x, y);
+      const padding = Math.min(
+        EDGE_PADDING,
+        rect.width * 0.5,
+        rect.height * 0.5,
+      );
+      const clampedX = clamp(x, padding, rect.width - padding);
+      const clampedY = clamp(y, padding, rect.height - padding);
+
+      mouse.x = clampedX;
+      mouse.y = clampedY;
+      setMouseVars(clampedX, clampedY);
     };
 
     const handleMouseLeave = () => {
@@ -222,9 +234,17 @@ const ASMRStaticBackground = ({
         return;
       }
 
-      mouse.x = x;
-      mouse.y = y;
-      setMouseVars(x, y);
+      const padding = Math.min(
+        EDGE_PADDING,
+        rect.width * 0.5,
+        rect.height * 0.5,
+      );
+      const clampedX = clamp(x, padding, rect.width - padding);
+      const clampedY = clamp(y, padding, rect.height - padding);
+
+      mouse.x = clampedX;
+      mouse.y = clampedY;
+      setMouseVars(clampedX, clampedY);
     };
 
     const handleResize = () => {
