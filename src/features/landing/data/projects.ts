@@ -8,12 +8,12 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Atlas Commerce",
+    title: "Memorify",
     description:
       "Global storefront redesign with cinematic product storytelling and realtime inventory visibility.",
     stack: ["Next.js", "TypeScript", "Stripe", "GraphQL"],
     focus: "Conversion +38%",
-    link: "",
+    link: "https://memorify.ge/",
   },
   {
     title: "SignalOS",
