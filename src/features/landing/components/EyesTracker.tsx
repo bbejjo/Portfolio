@@ -85,31 +85,40 @@ export function EyesTracker({ mode, emailValue = "", isSubmitSuccess = false }: 
     return () => clearInterval(jumpInterval);
   }, [isHolding]);
 
-  const handleMouseDown = () => {
+  const handlePressStart = () => {
     setIsHolding(true);
   };
 
-  const handleMouseUp = () => {
+  const handlePressEnd = () => {
     setIsHolding(false);
     setJumpHeight(0);
     setFaceScale(1);
   };
 
   useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => window.removeEventListener("mouseup", handleMouseUp);
+    window.addEventListener("pointerup", handlePressEnd);
+    window.addEventListener("pointercancel", handlePressEnd);
+    return () => {
+      window.removeEventListener("pointerup", handlePressEnd);
+      window.removeEventListener("pointercancel", handlePressEnd);
+    };
   }, []);
 
   return (
     <div className="flex items-center justify-center h-full w-full flex-col gap-12">
       {/* Animated Face */}
       <div
-        className="relative w-32 h-32 transition-transform duration-500 cursor-grab active:cursor-grabbing select-none"
+        className="relative h-32 w-32 touch-none select-none transition-transform duration-500 cursor-grab active:cursor-grabbing"
         style={{
           transform: `rotateY(${rotation}deg) translateY(${jumpHeight}px) scale(${faceScale})`,
           transformStyle: "preserve-3d",
         }}
-        onMouseDown={handleMouseDown}
+        onPointerDown={handlePressStart}
+        onPointerUp={handlePressEnd}
+        onPointerLeave={handlePressEnd}
+        onPointerCancel={handlePressEnd}
+        onTouchStart={handlePressStart}
+        onTouchEnd={handlePressEnd}
       >
         {/* Head */}
         <div className="absolute inset-0 rounded-full border-4 border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-lg" />

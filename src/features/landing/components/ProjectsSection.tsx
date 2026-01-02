@@ -27,11 +27,22 @@ const memorifyDetailText =
   "Memorify is a clean and minimal website concept focused on preserving memories through an intultive and responsive user interface. The project emphasizes clarity, emotional storytelling, and consistent design across devices.";
 
 function MemorifyPreview() {
+  const [showPrimaryImages, setShowPrimaryImages] = useState(false);
   const [showWatchImages, setShowWatchImages] = useState(false);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setShowWatchImages(true), 250);
-    return () => window.clearTimeout(timer);
+    const primaryTimer = window.setTimeout(
+      () => setShowPrimaryImages(true),
+      200,
+    );
+    const watchTimer = window.setTimeout(
+      () => setShowWatchImages(true),
+      700,
+    );
+    return () => {
+      window.clearTimeout(primaryTimer);
+      window.clearTimeout(watchTimer);
+    };
   }, []);
 
   return (
@@ -46,19 +57,27 @@ function MemorifyPreview() {
         </p>
       </div>
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
-        {memorifyPreviewImages.map((image) => (
-          <Image
-            key={image.src}
-            src={image.src}
-            alt={image.alt}
-            width={1200}
-            height={900}
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
-            placeholder="blur"
-            blurDataURL={memorifyPlaceholder}
-            className="h-auto w-full object-cover"
-          />
-        ))}
+        {showPrimaryImages
+          ? memorifyPreviewImages.map((image) => (
+              <Image
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                width={1200}
+                height={900}
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                placeholder="blur"
+                blurDataURL={memorifyPlaceholder}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            ))
+          : Array.from({ length: 2 }).map((_, index) => (
+              <div
+                key={`preview-placeholder-${index}`}
+                className="aspect-[4/3] w-full animate-pulse bg-white/5"
+              />
+            ))}
       </div>
       <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
         Our Team created full responsive Web site with unique Ul/UX design for
@@ -68,16 +87,21 @@ function MemorifyPreview() {
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
           {memorifyDetailText}
         </p>
-        <Image
-          src="/images/pc.png"
-          alt="Memorify desktop layout"
-          width={1200}
-          height={900}
-          sizes="(max-width: 768px) 90vw, 45vw"
-          placeholder="blur"
-          blurDataURL={memorifyPlaceholder}
-          className="h-auto w-full object-cover"
-        />
+        {showPrimaryImages ? (
+          <Image
+            src="/images/pc.png"
+            alt="Memorify desktop layout"
+            width={1200}
+            height={900}
+            sizes="(max-width: 768px) 90vw, 45vw"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
       </div>
       <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
         Minimal interface, soft visual rhythm, and a calm color palette to
