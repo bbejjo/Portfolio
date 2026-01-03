@@ -1,6 +1,5 @@
-import { AboutSection } from "@/features/landing/components/AboutSection";
 import { ContactSection } from "@/features/landing/components/ContactSection";
-import { HeroSection } from "@/features/landing/components/HeroSection";
+import { HeroAboutStack } from "@/features/landing/components/HeroAboutStack";
 import { MotionSection } from "@/features/landing/components/MotionSection";
 import { ProjectsSection } from "@/features/landing/components/ProjectsSection";
 
@@ -8,8 +7,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main className="relative">
-        <HeroSection />
-        <AboutSection />
+        <HeroAboutStack />
         <ProjectsSection />
         <MotionSection />
         <ContactSection />
