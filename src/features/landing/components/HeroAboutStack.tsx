@@ -16,7 +16,7 @@ type StackSizes = {
 };
 
 const REVEAL_DELAY_VH = 10;
-const REVEAL_HOLD_VH = 10;
+const REVEAL_HOLD_VH = 0;
 const REVEAL_DURATION_VH = 70;
 
 export function HeroAboutStack() {
@@ -48,8 +48,7 @@ export function HeroAboutStack() {
         revealHoldPx
       : 0;
   const aboutMinHeight = requiredAboutHeight > 0 ? requiredAboutHeight : 0;
-  const containerHeight =
-    sizes.hero + aboutMinHeight > 0 ? sizes.hero + aboutMinHeight : 1;
+  const containerHeight = aboutMinHeight > 0 ? aboutMinHeight : 1;
   const wipeEnd = Math.min(1, sizes.hero / containerHeight);
   const revealStartDistance = sizes.hero + revealDelayPx;
   const stickyEndDistance = Math.max(0, aboutMinHeight - viewportHeight);
@@ -151,7 +150,6 @@ export function HeroAboutStack() {
           minHeight={aboutMinHeight || undefined}
         />
       </div>
-      <div aria-hidden className="h-[var(--hero-height)]" />
     </div>
   );
 }
