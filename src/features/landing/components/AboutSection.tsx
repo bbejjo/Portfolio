@@ -5,11 +5,11 @@ import { useMemo } from "react";
 const aboutLines = [
   "We build high-quality business",
   "websites that combine strategy,",
-  "performance, and design, helping",
+  "performance, and design 👌 helping",
   "companies grow credibility, attract",
   "customers, and stand",
   "out with reliable,",
-  "professional digital experiences.",
+  "professional digital experiences. 🤩",
 ];
 
 type AboutSectionProps = {
