@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import ASMRStaticBackground from "@/components/ui/demo";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-import { SiteHeader } from "./SiteHeader";
 import { useEffect, useState } from "react";
 
 export function HeroSection() {
@@ -29,7 +28,6 @@ export function HeroSection() {
       id="home"
       className="relative min-h-[100svh] w-full max-w-full scroll-mt-16 overflow-hidden bg-background pb-24 pt-20 sm:min-h-[100vh] sm:pt-28"
     >
-      <SiteHeader />
       <div
         aria-hidden
         className="absolute inset-0 z-0"

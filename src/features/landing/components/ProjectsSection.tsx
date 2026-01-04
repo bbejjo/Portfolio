@@ -18,6 +18,16 @@ const maeliPreviewImages = [
   { src: "/images/maeli2.png", alt: "Maeli LLc page preview two" },
 ];
 
+const kutaisiPreviewImages = [
+  { src: "/images/kutaisi1.png", alt: "Guide in Kutaisi page preview one" },
+  { src: "/images/kutaisi2.png", alt: "Guide in Kutaisi page preview two" },
+];
+
+const steelPreviewImages = [
+  { src: "/images/steel1.png", alt: "Steel Company page preview one" },
+  { src: "/images/steel2.png", alt: "Steel Company page preview two" },
+];
+
 const memorifyPlaceholder =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' fill='%23111827'/></svg>";
 
@@ -31,9 +41,14 @@ const memorifyWatchImages = [
 const memorifyDetailText =
   "Memorify is a clean and minimal website concept focused on preserving memories through an intultive and responsive user interface. The project emphasizes clarity, emotional storytelling, and consistent design across devices.";
 
-
 const maeliDetailText =
   "Maeli LLC is a modern auto transport platform built to simplify nationwide car shipping with fast quotes, transparent communication, and reliable coverage across the U.S.";
+
+const kutaisiDetailText =
+  "Guide in Kutaisi is a modern city guide platform built to help visitors explore Kutaisi’s landmarks, history, and local culture through a clean, accessible, and user-friendly interface. The website focuses on clear navigation, visual storytelling, and practical information to make discovering the city simple and engaging for tourists and locals alike.";
+
+const steelDetailText =
+  "Steel Company is an interactive corporate microsite highlighting advanced steel products, technology showcases, and immersive visual storytelling.";
 
 function MemorifyPreview() {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
@@ -129,13 +144,13 @@ function MemorifyPreview() {
                 placeholder="blur"
                 blurDataURL={memorifyPlaceholder}
                 loading="lazy"
-                className="h-auto w-full object-cover"
+                className="h-auto w-full rounded-2xl object-cover"
               />
             ))
           : Array.from({ length: 4 }).map((_, index) => (
               <div
                 key={`watch-placeholder-${index}`}
-                className="aspect-square w-full animate-pulse bg-white/5"
+                className="aspect-square w-full animate-pulse rounded-2xl bg-white/5"
               />
             ))}
       </div>
@@ -218,6 +233,156 @@ function MaeliPreview() {
   );
 }
 
+function KutaisiPreview() {
+  const [showPrimaryImages, setShowPrimaryImages] = useState(false);
+
+  useEffect(() => {
+    const primaryTimer = window.setTimeout(
+      () => setShowPrimaryImages(true),
+      200,
+    );
+    return () => {
+      window.clearTimeout(primaryTimer);
+    };
+  }, []);
+
+  return (
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
+      <div className="text-center">
+        <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+          Preview of website - Guide in Kutaisi.
+        </h3>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+          A modern travel guide built to help visitors explore Kutaisi with clarity and inspiration.
+        </p>
+      </div>
+      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+        {showPrimaryImages
+          ? kutaisiPreviewImages.map((image) => (
+              <Image
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                width={1200}
+                height={900}
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                placeholder="blur"
+                blurDataURL={memorifyPlaceholder}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            ))
+          : Array.from({ length: 2 }).map((_, index) => (
+              <div
+                key={`preview-placeholder-${index}`}
+                className="aspect-[4/3] w-full animate-pulse bg-white/5"
+              />
+            ))}
+      </div>
+      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+        Our Team created full responsive Web site with unique Ul/UX design for
+        Guide in Kutaisi.
+      </p>
+      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+        <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+          {kutaisiDetailText}
+        </p>
+        {showPrimaryImages ? (
+          <Image
+            src="/images/kutaisi3.png"
+            alt="Guide in Kutaisi desktop layout"
+            width={1200}
+            height={900}
+            sizes="(max-width: 768px) 90vw, 45vw"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+function SteelPreview() {
+  const [showPrimaryImages, setShowPrimaryImages] = useState(false);
+
+  useEffect(() => {
+    const primaryTimer = window.setTimeout(
+      () => setShowPrimaryImages(true),
+      200,
+    );
+    return () => {
+      window.clearTimeout(primaryTimer);
+    };
+  }, []);
+
+  return (
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
+      <div className="text-center">
+        <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+          Preview of website - Steel Company.
+        </h3>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+          An immersive corporate platform showcasing advanced steel products and innovation.
+        </p>
+      </div>
+      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+        {showPrimaryImages
+          ? steelPreviewImages.map((image) => (
+              <Image
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                width={1200}
+                height={900}
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                placeholder="blur"
+                blurDataURL={memorifyPlaceholder}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            ))
+          : Array.from({ length: 2 }).map((_, index) => (
+              <div
+                key={`preview-placeholder-${index}`}
+                className="aspect-[4/3] w-full animate-pulse bg-white/5"
+              />
+            ))}
+      </div>
+      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+        Our Team created full responsive Web site with unique Ul/UX design for
+        Steel Company.
+      </p>
+      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+        <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+          {steelDetailText}
+        </p>
+        {showPrimaryImages ? (
+          <Image
+            src="/images/steel3.png"
+            alt="Steel Company desktop layout"
+            width={1200}
+            height={900}
+            sizes="(max-width: 768px) 90vw, 45vw"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
+      </div>
+
+    </div>
+  );
+}
+
 export function ProjectsSection() {
   const ref = useRef<HTMLElement | null>(null);
   const shouldReduceMotion = usePrefersReducedMotion();
@@ -288,6 +453,8 @@ export function ProjectsSection() {
   const frameY = useTransform(scrollYProgress, [0, 0.35, 0.6], [24, 14, 0]);
   const isMemorify = activeProject?.title === "Memorify";
   const isMaeli = activeProject?.title === "Maeli LLc";
+  const isKutaisi = activeProject?.title === "Guide in Kutaisi";
+  const isSteel = activeProject?.title === "Steel Company";
 
   return (
     <section
@@ -428,6 +595,10 @@ export function ProjectsSection() {
                     <MemorifyPreview />
                   ) : isMaeli ? (
                     <MaeliPreview />
+                  ) : isKutaisi ? (
+                    <KutaisiPreview />
+                  ) : isSteel ? (
+                    <SteelPreview />
                   ) : (
                     <div className="flex h-full items-center justify-center px-6 text-sm text-muted">
                       {activeProject.title} preview

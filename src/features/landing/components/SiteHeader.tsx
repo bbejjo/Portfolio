@@ -23,7 +23,15 @@ export function SiteHeader() {
     if (!element) return;
 
     const top = element.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top, behavior: "smooth" });
+    const heroHeightValue = parseFloat(
+      getComputedStyle(element).getPropertyValue("--hero-height"),
+    );
+    const heroHeight = Number.isFinite(heroHeightValue) ? heroHeightValue : 0;
+    const extraOffset =
+      id === "about"
+        ? Math.max(0, heroHeight + 1)
+        : 0;
+    window.scrollTo({ top: top + extraOffset, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -90,7 +98,7 @@ export function SiteHeader() {
             ))}
           </div>
         </nav>
-        <div className="relative md:hidden" ref={mobileNavRef}>
+        <div className="fixed right-6 top-4 z-50 md:hidden" ref={mobileNavRef}>
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}

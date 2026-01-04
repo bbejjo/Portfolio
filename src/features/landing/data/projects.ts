@@ -11,7 +11,7 @@ export const projects: Project[] = [
     title: "Memorify",
     description:
       "Event-based photo platform enabling seamless uploads, AI filtering, and shared digital galleries.",
-    stack: ["React", "Tailwind", "Django"],
+    stack: ["React", "Tailwind", "Django", "Figma", "Spine"],
     focus: "Product launch",
     link: "https://memorify.ge/",
   },
@@ -19,24 +19,25 @@ export const projects: Project[] = [
     title: "Maeli LLc",
     description:
       "Nationwide auto transport website enabling fast quotes, driver applications, and clear customer communication.",
-    stack: ["React", "Tailwind", "Django"],
+    stack: ["React", "Tailwind", "Django", "Figma"],
     focus: "Customer inquiries",
     link: "https://maelillc.com/",
   },
   {
-    title: "Aurora Health",
-    description:
-      "Care coordination platform with accessibility-first UX and personalized patient journeys.",
-    stack: ["Next.js", "Tailwind", "FHIR", "Vercel"],
-    focus: "NPS +18",
-    link: "",
-  },
+  title: "Guide in Kutaisi",
+  description:
+    "Local travel guide platform showcasing Kutaisi’s landmarks, culture, and attractions with clear navigation and visitor-focused content.",
+  stack: ["Next.js", "Tailwind", "Vercel"],
+  focus: "city exploration",
+  link: "https://guide-in-kutaisi.netlify.app/",
+}
+,
   {
-    title: "Northwind Labs",
+    title: "Steel Company",
     description:
-      "R&D microsite showcasing product pipelines with immersive visuals and crisp storytelling.",
+      "Interactive corporate microsite highlighting advanced steel products, technology showcases, and immersive visual storytelling.",
     stack: ["Three.js", "Framer Motion", "Contentful", "Vercel"],
-    focus: "Award finalist",
-    link: "",
+    focus: "Visual R&D showcase",
+    link: "https://steelcompany.netlify.app/",
   },
 ];

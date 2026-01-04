@@ -10,6 +10,7 @@ import {
 import { motion, useScroll, useTransform } from "framer-motion";
 import { AboutSection } from "./AboutSection";
 import { HeroSection } from "./HeroSection";
+import { SiteHeader } from "./SiteHeader";
 
 type StackSizes = {
   hero: number;
@@ -139,6 +140,7 @@ export function HeroAboutStack() {
 
   return (
     <div ref={containerRef} className="relative" style={containerStyle}>
+      <SiteHeader />
       <div ref={heroRef} className="sticky top-0 z-20">
         <motion.div style={{ clipPath }} className="will-change-[clip-path]">
           <HeroSection />
