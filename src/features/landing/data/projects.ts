@@ -10,18 +10,18 @@ export const projects: Project[] = [
   {
     title: "Memorify",
     description:
-      "Global storefront redesign with cinematic product storytelling and realtime inventory visibility.",
-    stack: ["Next.js", "TypeScript", "Stripe", "GraphQL"],
-    focus: "Conversion +38%",
+      "Event-based photo platform enabling seamless uploads, AI filtering, and shared digital galleries.",
+    stack: ["React", "Tailwind", "Django"],
+    focus: "Product launch",
     link: "https://memorify.ge/",
   },
   {
-    title: "SignalOS",
+    title: "Maeli LLc",
     description:
-      "Operational intelligence dashboard that unifies alerts, incidents, and analytics in one timeline.",
-    stack: ["React", "Framer Motion", "Node.js", "PostgreSQL"],
-    focus: "Response time -42%",
-    link: "",
+      "Nationwide auto transport website enabling fast quotes, driver applications, and clear customer communication.",
+    stack: ["React", "Tailwind", "Django"],
+    focus: "Customer inquiries",
+    link: "https://maelillc.com/",
   },
   {
     title: "Aurora Health",

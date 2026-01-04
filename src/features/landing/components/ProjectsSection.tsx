@@ -9,8 +9,13 @@ import { projects } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 
 const memorifyPreviewImages = [
-  { src: "/images/pic1.png", alt: "Memorify page preview one" },
-  { src: "/images/pic2.png", alt: "Memorify page preview two" },
+  { src: "/images/pic.png", alt: "Memorify page preview one" },
+  { src: "/images/pic@.png", alt: "Memorify page preview two" },
+];
+
+const maeliPreviewImages = [
+  { src: "/images/maeli1.png", alt: "Maeli LLc page preview one" },
+  { src: "/images/maeli2.png", alt: "Maeli LLc page preview two" },
 ];
 
 const memorifyPlaceholder =
@@ -25,6 +30,10 @@ const memorifyWatchImages = [
 
 const memorifyDetailText =
   "Memorify is a clean and minimal website concept focused on preserving memories through an intultive and responsive user interface. The project emphasizes clarity, emotional storytelling, and consistent design across devices.";
+
+
+const maeliDetailText =
+  "Maeli LLC is a modern auto transport platform built to simplify nationwide car shipping with fast quotes, transparent communication, and reliable coverage across the U.S.";
 
 function MemorifyPreview() {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
@@ -89,7 +98,7 @@ function MemorifyPreview() {
         </p>
         {showPrimaryImages ? (
           <Image
-            src="/images/pc.png"
+            src="/images/pc2.png"
             alt="Memorify desktop layout"
             width={1200}
             height={900}
@@ -130,6 +139,81 @@ function MemorifyPreview() {
               />
             ))}
       </div>
+    </div>
+  );
+}
+
+function MaeliPreview() {
+  const [showPrimaryImages, setShowPrimaryImages] = useState(false);
+
+  useEffect(() => {
+    const primaryTimer = window.setTimeout(
+      () => setShowPrimaryImages(true),
+      200,
+    );
+    return () => {
+      window.clearTimeout(primaryTimer);
+    };
+  }, []);
+
+  return (
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
+      <div className="text-center">
+        <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+          Preview of website - Maeli LLC.
+        </h3>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+        A modern web platform built to simplify car shipping, providing fast quotes, transparent communication, and nationwide coverage.
+        </p>
+      </div>
+      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+        {showPrimaryImages
+          ? maeliPreviewImages.map((image) => (
+              <Image
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                width={1200}
+                height={900}
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                placeholder="blur"
+                blurDataURL={memorifyPlaceholder}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            ))
+          : Array.from({ length: 2 }).map((_, index) => (
+              <div
+                key={`preview-placeholder-${index}`}
+                className="aspect-[4/3] w-full animate-pulse bg-white/5"
+              />
+            ))}
+      </div>
+      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+        Our Team created full responsive Web site with unique Ul/UX design for
+        Maeli LLC Company.
+      </p>
+      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+        <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+          {maeliDetailText}
+        </p>
+        {showPrimaryImages ? (
+          <Image
+            src="/images/maeliPC.png"
+            alt="Maeli LLc desktop layout"
+            width={1200}
+            height={900}
+            sizes="(max-width: 768px) 90vw, 45vw"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
+      </div>
+    
     </div>
   );
 }
@@ -203,6 +287,7 @@ export function ProjectsSection() {
   );
   const frameY = useTransform(scrollYProgress, [0, 0.35, 0.6], [24, 14, 0]);
   const isMemorify = activeProject?.title === "Memorify";
+  const isMaeli = activeProject?.title === "Maeli LLc";
 
   return (
     <section
@@ -341,6 +426,8 @@ export function ProjectsSection() {
                 <div className="relative flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_80%_80%,_rgba(251,191,36,0.08),_transparent_40%)]">
                   {isMemorify ? (
                     <MemorifyPreview />
+                  ) : isMaeli ? (
+                    <MaeliPreview />
                   ) : (
                     <div className="flex h-full items-center justify-center px-6 text-sm text-muted">
                       {activeProject.title} preview
