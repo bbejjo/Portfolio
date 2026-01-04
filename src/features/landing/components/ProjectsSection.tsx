@@ -80,52 +80,114 @@ function MemorifyPreview() {
           moments.
         </p>
       </div>
-      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
-        {showPrimaryImages
-          ? memorifyPreviewImages.map((image) => (
-              <Image
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
-                width={1200}
-                height={900}
-                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
-                placeholder="blur"
-                blurDataURL={memorifyPlaceholder}
-                loading="lazy"
-                className="h-auto w-full object-cover"
-              />
-            ))
-          : Array.from({ length: 2 }).map((_, index) => (
-              <div
-                key={`preview-placeholder-${index}`}
-                className="aspect-[4/3] w-full animate-pulse bg-white/5"
-              />
-            ))}
-      </div>
-      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for
-        Memorify brand.
-      </p>
-      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+      <div className="flex w-full flex-col items-center gap-6 sm:hidden">
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/pic.png"
+              alt="Memorify page preview one"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[15px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique Ul/UX design for
+          Memorify brand.
+        </p>
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/pic@.png"
+              alt="Memorify page preview two"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[15px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
           {memorifyDetailText}
         </p>
-        {showPrimaryImages ? (
-          <Image
-            src="/images/pc2.png"
-            alt="Memorify desktop layout"
-            width={1200}
-            height={900}
-            sizes="(max-width: 768px) 90vw, 45vw"
-            placeholder="blur"
-            blurDataURL={memorifyPlaceholder}
-            loading="lazy"
-            className="h-auto w-full object-cover"
-          />
-        ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
-        )}
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/pc2.png"
+              alt="Memorify desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[20px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+      </div>
+      <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
+        <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+          {showPrimaryImages
+            ? memorifyPreviewImages.map((image) => (
+                <Image
+                  key={image.src}
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={900}
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                  placeholder="blur"
+                  blurDataURL={memorifyPlaceholder}
+                  loading="lazy"
+                  className="h-auto w-full object-cover"
+                />
+              ))
+            : Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={`preview-placeholder-${index}`}
+                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                />
+              ))}
+        </div>
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique Ul/UX design for
+          Memorify brand.
+        </p>
+        <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+          <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+            {memorifyDetailText}
+          </p>
+          {showPrimaryImages ? (
+            <Image
+              src="/images/pc2.png"
+              alt="Memorify desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 768px) 90vw, 45vw"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
       </div>
       <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
         Minimal interface, soft visual rhythm, and a calm color palette to
