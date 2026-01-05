@@ -233,68 +233,136 @@ function MaeliPreview() {
     };
   }, []);
 
-  return (
+ return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
       <div className="text-center">
         <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
           Preview of website - Maeli LLC.
         </h3>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-        A modern web platform built to simplify car shipping, providing fast quotes, transparent communication, and nationwide coverage.
+          A modern web platform built to simplify car shipping, providing fast quotes, transparent communication, and nationwide coverage.
         </p>
       </div>
-      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
-        {showPrimaryImages
-          ? maeliPreviewImages.map((image) => (
-              <Image
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
-                width={1200}
-                height={900}
-                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
-                placeholder="blur"
-                blurDataURL={memorifyPlaceholder}
-                loading="lazy"
-                className="h-auto w-full object-cover"
-              />
-            ))
-          : Array.from({ length: 2 }).map((_, index) => (
-              <div
-                key={`preview-placeholder-${index}`}
-                className="aspect-[4/3] w-full animate-pulse bg-white/5"
-              />
-            ))}
-      </div>
-      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for
-        Maeli LLC Company.
-      </p>
-      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+
+      {/* Mobile layout */}
+      <div className="flex w-full flex-col items-center gap-6 sm:hidden">
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/maeli1.png"
+              alt="Maeli page preview one"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[15px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique UI/UX design for Maeli LLC Company.
+        </p>
+
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/maeli2.png"
+              alt="Maeli page preview two"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[12px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
           {maeliDetailText}
         </p>
-        {showPrimaryImages ? (
-          <Image
-            src="/images/maeliPC.png"
-            alt="Maeli LLc desktop layout"
-            width={1200}
-            height={900}
-            sizes="(max-width: 768px) 90vw, 45vw"
-            placeholder="blur"
-            blurDataURL={memorifyPlaceholder}
-            loading="lazy"
-            className="h-auto w-full object-cover"
-          />
-        ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
-        )}
+
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/maeliPC.png"
+              alt="Maeli desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[25px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
       </div>
-    
+
+      {/* Desktop layout */}
+      <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
+        <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+          {showPrimaryImages
+            ? maeliPreviewImages.map((image) => (
+                <Image
+                  key={image.src}
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={900}
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                  placeholder="blur"
+                  blurDataURL={memorifyPlaceholder}
+                  loading="lazy"
+                  className="h-auto w-full object-cover"
+                />
+              ))
+            : Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={`preview-placeholder-${index}`}
+                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                />
+              ))}
+        </div>
+
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique UI/UX design for Maeli LLC Company.
+        </p>
+
+        <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+          <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+            {maeliDetailText}
+          </p>
+          {showPrimaryImages ? (
+            <Image
+              src="/images/maeliPC.png"
+              alt="Maeli desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 768px) 90vw, 45vw"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
-
 function KutaisiPreview() {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
 
@@ -318,54 +386,121 @@ function KutaisiPreview() {
           A modern travel guide built to help visitors explore Kutaisi with clarity and inspiration.
         </p>
       </div>
-      <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
-        {showPrimaryImages
-          ? kutaisiPreviewImages.map((image) => (
-              <Image
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
-                width={1200}
-                height={900}
-                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
-                placeholder="blur"
-                blurDataURL={memorifyPlaceholder}
-                loading="lazy"
-                className="h-auto w-full object-cover"
-              />
-            ))
-          : Array.from({ length: 2 }).map((_, index) => (
-              <div
-                key={`preview-placeholder-${index}`}
-                className="aspect-[4/3] w-full animate-pulse bg-white/5"
-              />
-            ))}
-      </div>
-      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for
-        Guide in Kutaisi.
-      </p>
-      <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+
+      {/* Mobile layout */}
+      <div className="flex w-full flex-col items-center gap-6 sm:hidden">
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/kutaisi1.png"
+              alt="Guide in Kutaisi page preview one"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[15px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique Ul/UX design for Guide in Kutaisi.
+        </p>
+
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/kutaisi2.png"
+              alt="Guide in Kutaisi page preview two"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[15px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
           {kutaisiDetailText}
         </p>
-        {showPrimaryImages ? (
-          <Image
-            src="/images/kutaisi3.png"
-            alt="Guide in Kutaisi desktop layout"
-            width={1200}
-            height={900}
-            sizes="(max-width: 768px) 90vw, 45vw"
-            placeholder="blur"
-            blurDataURL={memorifyPlaceholder}
-            loading="lazy"
-            className="h-auto w-full object-cover"
-          />
-        ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
-        )}
+
+        <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+          {showPrimaryImages ? (
+            <Image
+              src="/images/kutaisi3.png"
+              alt="Guide in Kutaisi desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 640px) 92vw, 520px"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full translate-x-[20px] object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
       </div>
 
+      {/* Desktop layout */}
+      <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
+        <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
+          {showPrimaryImages
+            ? kutaisiPreviewImages.map((image) => (
+                <Image
+                  key={image.src}
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={900}
+                  sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+                  placeholder="blur"
+                  blurDataURL={memorifyPlaceholder}
+                  loading="lazy"
+                  className="h-auto w-full object-cover"
+                />
+              ))
+            : Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={`preview-placeholder-${index}`}
+                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                />
+              ))}
+        </div>
+        <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+          Our Team created full responsive Web site with unique Ul/UX design for Guide in Kutaisi.
+        </p>
+        <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
+          <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+            {kutaisiDetailText}
+          </p>
+          {showPrimaryImages ? (
+            <Image
+              src="/images/kutaisi3.png"
+              alt="Guide in Kutaisi desktop layout"
+              width={1200}
+              height={900}
+              sizes="(max-width: 768px) 90vw, 45vw"
+              placeholder="blur"
+              blurDataURL={memorifyPlaceholder}
+              loading="lazy"
+              className="h-auto w-full object-cover"
+            />
+          ) : (
+            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -383,16 +518,80 @@ function SteelPreview() {
     };
   }, []);
 
-  return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
-      <div className="text-center">
-        <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-          Preview of website - Steel Company.
-        </h3>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          An immersive corporate platform showcasing advanced steel products and innovation.
-        </p>
+return (
+  <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
+    <div className="text-center">
+      <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
+        Preview of website - Steel Company.
+      </h3>
+      <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+        An immersive corporate platform showcasing advanced steel products and innovation.
+      </p>
+    </div>
+
+    {/* Mobile layout */}
+    <div className="flex w-full flex-col items-center gap-6 sm:hidden">
+      <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+        {showPrimaryImages ? (
+          <Image
+            src="/images/steel1.png"
+            alt="Steel Company page preview one"
+            width={1200}
+            height={900}
+            sizes="(max-width: 640px) 92vw, 520px"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full translate-x-[15px] object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
       </div>
+      <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
+        Our Team created full responsive Web site with unique Ul/UX design for Steel Company.
+      </p>
+      <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+        {showPrimaryImages ? (
+          <Image
+            src="/images/steel2.png"
+            alt="Steel Company page preview two"
+            width={1200}
+            height={900}
+            sizes="(max-width: 640px) 92vw, 520px"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full translate-x-[15px] object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
+      </div>
+      <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
+        {steelDetailText}
+      </p>
+      <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
+        {showPrimaryImages ? (
+          <Image
+            src="/images/steel3.png"
+            alt="Steel Company desktop layout"
+            width={1200}
+            height={900}
+            sizes="(max-width: 640px) 92vw, 520px"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-auto w-full translate-x-[20px] object-cover"
+          />
+        ) : (
+          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+        )}
+      </div>
+    </div>
+
+    {/* Desktop layout */}
+    <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
         {showPrimaryImages
           ? steelPreviewImages.map((image) => (
@@ -417,8 +616,7 @@ function SteelPreview() {
             ))}
       </div>
       <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for
-        Steel Company.
+        Our Team created full responsive Web site with unique Ul/UX design for Steel Company.
       </p>
       <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
@@ -440,9 +638,10 @@ function SteelPreview() {
           <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
         )}
       </div>
-
     </div>
-  );
+  </div>
+);
+
 }
 
 export function ProjectsSection() {
@@ -632,26 +831,35 @@ export function ProjectsSection() {
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex h-full flex-col">
-                <div className="flex items-center justify-end px-6 py-4">
-                  <a
-                    href={activeProject.link || "#"}
-                    aria-disabled={!activeProject.link}
-                    target={activeProject.link ? "_blank" : undefined}
-                    rel={activeProject.link ? "noreferrer noopener" : undefined}
-                    onClick={(event) => {
-                      if (!activeProject.link) {
-                        event.preventDefault();
-                      }
-                    }}
-                    className={`rounded-full border border-accent/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent transition ${
-                      activeProject.link
-                        ? "hover:bg-accent/10"
-                        : "cursor-not-allowed opacity-60"
-                    }`}
-                  >
-                    Visit website
-                  </a>
-                </div>
+                <div className="flex items-center justify-between px-6 py-4">
+  <button
+    onClick={() => setActiveProject(null)}
+    aria-label="Close preview"
+    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-accent"
+  >
+    ✕
+  </button>
+
+  <a
+    href={activeProject.link || "#"}
+    aria-disabled={!activeProject.link}
+    target={activeProject.link ? "_blank" : undefined}
+    rel={activeProject.link ? "noreferrer noopener" : undefined}
+    onClick={(event) => {
+      if (!activeProject.link) {
+        event.preventDefault();
+      }
+    }}
+    className={`rounded-full border border-accent/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent transition ${
+      activeProject.link
+        ? "hover:bg-accent/10"
+        : "cursor-not-allowed opacity-60"
+    }`}
+  >
+    Visit website
+  </a>
+</div>
+
                 <div className="relative flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_80%_80%,_rgba(251,191,36,0.08),_transparent_40%)]">
                   {isMemorify ? (
                     <MemorifyPreview />
