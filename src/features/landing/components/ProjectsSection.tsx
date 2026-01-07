@@ -501,6 +501,34 @@ function KutaisiPreview() {
           )}
         </div>
       </div>
+
+      <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
+        Designed with minimalism in mind, this grid uses soft colors and a calm rhythm to showcase Kutaisi, creating a serene, memory-focused experience free of visual noise.
+      </h4>
+            {/* Kutaisi mockup grid below all existing content */}
+<div className="grid w-full max-w-5xl grid-cols-2 gap-4 mt-8 mx-auto">
+  {[
+    { src: "/images/kutaisi_mockup.png", alt: "Guide in Kutaisi mockup one" },
+    { src: "/images/kutaisi_mockup2.png", alt: "Guide in Kutaisi mockup two" },
+    { src: "/images/kutaisi_mockup3.png", alt: "Guide in Kutaisi mockup three" },
+    { src: "/images/kutaisi_mockup4.png", alt: "Guide in Kutaisi mockup four" },
+  ].map((image) => (
+    <div key={image.src} className="flex justify-center">
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={400}   // intrinsic resolution
+        height={400}  // intrinsic resolution
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 400px"
+        placeholder="blur"
+        blurDataURL={memorifyPlaceholder}
+        loading="lazy"
+        className="h-[200px] sm:h-[250px] md:h-[530px] w-11/12 xl:w-full rounded-2xl object-cover"
+      />
+    </div>
+  ))}
+</div>
+
     </div>
   );
 }
