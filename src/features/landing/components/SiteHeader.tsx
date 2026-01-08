@@ -19,6 +19,12 @@ export function SiteHeader() {
   const router = useRouter();
 
   const scrollToId = (id: string) => {
+    if (id === "home") {
+      // Scroll completely to top for Home
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     const element = document.getElementById(id);
     if (!element) return;
 
@@ -27,10 +33,8 @@ export function SiteHeader() {
       getComputedStyle(element).getPropertyValue("--hero-height"),
     );
     const heroHeight = Number.isFinite(heroHeightValue) ? heroHeightValue : 0;
-    const extraOffset =
-      id === "about"
-        ? Math.max(0, heroHeight + 1)
-        : 0;
+    const extraOffset = id === "about" ? Math.max(0, heroHeight + 1) : 0;
+
     window.scrollTo({ top: top + extraOffset, behavior: "smooth" });
   };
 
