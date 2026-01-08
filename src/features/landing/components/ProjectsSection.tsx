@@ -667,8 +667,43 @@ return (
         )}
       </div>
     </div>
+      <div className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-2 gap-6">
+      {[
+        { src: "/images/steel_mockup.png", alt: "Steel mockup one" },
+        { src: "/images/steel_mockup2.png", alt: "Steel mockup two" },
+        { src: "/images/steel_mockup3.png", alt: "Steel mockup three" },
+        { src: "/images/steel_mockup4.png", alt: "Steel mockup four" },
+      ].map((image) => (
+        <div
+          key={image.src}
+          className="relative w-full overflow-hidden rounded-2xl"
+        >
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={1200}
+            height={900}
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+            placeholder="blur"
+            blurDataURL={memorifyPlaceholder}
+            loading="lazy"
+            className="h-[220px] sm:h-[260px] md:h-[520px] w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+
   </div>
+
+  
+
+  
 );
+
+
+
+
+
 
 }
 
