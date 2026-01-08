@@ -23,23 +23,35 @@ const REVEAL_DURATION_VH = 70;
 export function HeroAboutStack() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
-  const [sizes, setSizes] = useState<StackSizes>({ hero: 0 });
-  const [viewportHeight, setViewportHeight] = useState(0);
+
+  // ---- Initialize hero size with realistic px to avoid CLS ----
+  const [sizes, setSizes] = useState<StackSizes>({ hero: 700 });
+
+  // ---- Initialize viewport height immediately to avoid CLS ----
+  const [viewportHeight, setViewportHeight] = useState(
+    typeof window !== "undefined" ? window.innerHeight : 800
+  );
+
   const [revealProgressValue, setRevealProgressValue] = useState(0);
   const revealMetricsRef = useRef({
     containerHeight: 1,
     revealStartDistance: 0,
     revealEndDistance: 0,
     aboutMinHeight: 0,
-    viewportHeight: 0,
+    viewportHeight: viewportHeight,
   });
+
+  const [isClient, setIsClient] = useState(false); // ---- Client-only flag ----
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
+
   const revealDelayPx = (REVEAL_DELAY_VH / 100) * viewportHeight;
   const revealHoldPx = (REVEAL_HOLD_VH / 100) * viewportHeight;
   const revealDurationPx = (REVEAL_DURATION_VH / 100) * viewportHeight;
+
   const requiredAboutHeight =
     viewportHeight > 0
       ? viewportHeight +
@@ -57,12 +69,14 @@ export function HeroAboutStack() {
     revealStartDistance,
     stickyEndDistance - revealHoldPx
   );
+
   const clipPath = useTransform(
     scrollYProgress,
     [0, wipeEnd],
     ["inset(0% 0% 0% 0%)", "inset(0% 0% 100% 0%)"],
     { clamp: true }
   );
+
   const containerStyle = {
     "--hero-height": `${sizes.hero}px`,
   } as CSSProperties;
@@ -82,6 +96,7 @@ export function HeroAboutStack() {
     return Math.min(1, Math.max(0, adjusted));
   };
 
+  // ---- Measure hero after mount for precise sizing, CLS-safe ----
   useLayoutEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
@@ -128,6 +143,7 @@ export function HeroAboutStack() {
     return () => unsubscribe();
   }, [scrollYProgress]);
 
+  // ---- Keep viewport height updated on resize ----
   useEffect(() => {
     const updateViewport = () => {
       setViewportHeight(window.innerHeight);
@@ -138,6 +154,16 @@ export function HeroAboutStack() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
+  // ---- Flag client after mount to fix hydration mismatch ----
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // ---- Round minHeight for hydration consistency ----
+  const effectiveMinHeight = isClient
+    ? Math.round(aboutMinHeight)
+    : 2000; // fallback for SSR
+
   return (
     <div ref={containerRef} className="relative" style={containerStyle}>
       <SiteHeader />
@@ -146,10 +172,11 @@ export function HeroAboutStack() {
           <HeroSection />
         </motion.div>
       </div>
+
       <div className="-mt-[var(--hero-height)]">
         <AboutSection
           revealProgress={revealProgressValue}
-          minHeight={aboutMinHeight || undefined}
+          minHeight={effectiveMinHeight}
         />
       </div>
     </div>

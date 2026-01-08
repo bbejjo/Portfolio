@@ -9,6 +9,9 @@ export function HeroSection() {
   const shouldReduceMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
 
+  // ---- Initialize hero height early to avoid CLS ----
+  const [initialHeroHeight] = useState(700); // realistic approximate hero height in px
+
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)");
     const update = () => setIsMobile(media.matches);
@@ -27,11 +30,9 @@ export function HeroSection() {
     <section
       id="home"
       className="relative min-h-[100svh] w-full max-w-full scroll-mt-16 overflow-hidden bg-background pb-24 pt-20 sm:min-h-[100vh] sm:pt-28"
+      style={{ "--hero-height": `${initialHeroHeight}px` } as React.CSSProperties} // reserve hero height for negative margins
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 z-0"
-      >
+      <div aria-hidden className="absolute inset-0 z-0">
         <ASMRStaticBackground
           className="h-full w-full"
           showOverlay={false}
