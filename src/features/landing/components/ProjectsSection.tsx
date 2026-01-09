@@ -222,6 +222,7 @@ function MemorifyPreview() {
 
 function MaeliPreview() {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const primaryTimer = window.setTimeout(
@@ -232,6 +233,32 @@ function MaeliPreview() {
       window.clearTimeout(primaryTimer);
     };
   }, []);
+
+
+  useEffect(() => {
+  const video = videoRef.current;
+  if (!video) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    },
+    {
+      threshold: 0.6, // play when 60% visible
+    }
+  );
+
+  observer.observe(video);
+
+  return () => {
+    observer.disconnect();
+  };
+}, []);
+
 
  return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
@@ -360,9 +387,31 @@ function MaeliPreview() {
           )}
         </div>
       </div>
+
+      <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
+        Live Company preview
+      </h4>
+
+      <div className="mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-3xl">
+        <video
+          ref={videoRef}
+          src="/images/video.mp4"
+          loop
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+          className="h-[220px] sm:h-[320px] md:h-[520px] w-full object-cover"
+        />
+      </div>
+
     </div>
   );
 }
+
+
+
+
 function KutaisiPreview() {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
 
@@ -667,31 +716,35 @@ return (
         )}
       </div>
     </div>
-      <div className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-2 gap-6">
-      {[
-        { src: "/images/steel_mockup.png", alt: "Steel mockup one" },
-        { src: "/images/steel_mockup2.png", alt: "Steel mockup two" },
-        { src: "/images/steel_mockup3.png", alt: "Steel mockup three" },
-        { src: "/images/steel_mockup4.png", alt: "Steel mockup four" },
-      ].map((image) => (
-        <div
-          key={image.src}
-          className="relative w-full overflow-hidden rounded-2xl"
-        >
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={1200}
-            height={900}
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
-            placeholder="blur"
-            blurDataURL={memorifyPlaceholder}
-            loading="lazy"
-            className="h-[220px] sm:h-[260px] md:h-[520px] w-full object-cover"
-          />
-        </div>
-      ))}
+
+        <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
+          Company brand cards
+        </h4>
+<div className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-2 gap-6">
+  {[
+    { src: "/images/steel_mockupA.png", alt: "Steel mockup one" },
+    { src: "/images/steel_mockupB.png", alt: "Steel mockup two" },
+    { src: "/images/steel_mockupC.png", alt: "Steel mockup three" },
+    { src: "/images/steel_mockupD.png", alt: "Steel mockup four" },
+  ].map((image) => (
+    <div
+      key={image.src}
+      className="relative w-full overflow-hidden rounded-2xl"
+    >
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={1200}
+        height={900}
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
+        placeholder="blur"
+        blurDataURL={memorifyPlaceholder}
+        loading="lazy"
+        className="h-[140px] sm:h-[260px] md:h-[300px] w-full object-cover"
+      />
     </div>
+  ))}
+</div>
 
   </div>
 
