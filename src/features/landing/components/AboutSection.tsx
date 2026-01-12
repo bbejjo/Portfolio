@@ -110,21 +110,31 @@ export function AboutSection({
           </InfiniteSlider>
 
           {/* Slider 2 — opposite direction */}
-          <InfiniteSlider duration={18} reverse>
-            <Image
-              src="/images/slider-frt.png"
-              alt="Slider 2"
-              width={1000}
-              height={160}
-              className="h-32 w-auto object-contain px-10"
-              priority
-            />
-          </InfiniteSlider>
+          <InfiniteSlider
+  duration={18}
+  reverse
+className="
+  bg-white/10
+  backdrop-blur-2xl
+  rounded-2xl
+  shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]
+"
+>
+  <Image
+    src="/images/slider-bck.png"
+    alt="Slider 2"
+    width={1000}
+    height={160}
+    className="h-32 w-auto object-contain px-10"
+    priority
+  />
+</InfiniteSlider>
+
 
           {/* Slider 3 — normal */}
           <InfiniteSlider duration={18}>
             <Image
-              src="/images/slider-bck.png"
+              src="/images/slider-frt.png"
               alt="Slider 3"
               width={1000}
               height={160}

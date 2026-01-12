@@ -13,37 +13,49 @@ export function HeroSection() {
   const [initialHeroHeight] = useState(700); // realistic approximate hero height in px
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 768px)");
-    const update = () => setIsMobile(media.matches);
-    update();
+    // Detect all touch devices reliably (iPhones + all iPads)
+    const isTouchDevice =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.maxTouchPoints > 0;
 
-    if (media.addEventListener) {
-      media.addEventListener("change", update);
-      return () => media.removeEventListener("change", update);
-    }
-
-    media.addListener(update);
-    return () => media.removeListener(update);
+    setIsMobile(isTouchDevice);
   }, []);
 
   return (
     <section
       id="home"
       className="relative min-h-[100svh] w-full max-w-full scroll-mt-16 overflow-hidden bg-background pb-24 pt-20 sm:min-h-[100vh] sm:pt-28"
-      style={{ "--hero-height": `${initialHeroHeight}px` } as React.CSSProperties} // reserve hero height for negative margins
+      style={{ "--hero-height": `${initialHeroHeight}px` } as React.CSSProperties}
     >
+      {/* Background: Video on touch devices, ASMRStaticBackground on desktop */}
       <div aria-hidden className="absolute inset-0 z-0">
-        <ASMRStaticBackground
-          className="h-full w-full"
-          showOverlay={false}
-          showCursor={false}
-          interactive={!isMobile && !shouldReduceMotion}
-        />
+        {isMobile ? (
+          <video
+            className="h-full w-full object-cover"
+            src="/videos/mob-hero.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <ASMRStaticBackground
+            className="h-full w-full"
+            showOverlay={false}
+            showCursor={false}
+            interactive={!shouldReduceMotion}
+          />
+        )}
       </div>
+
+      {/* Gradient overlay (optional, does not affect video black background) */}
       <div
         aria-hidden
         className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_30%_30%,_rgba(251,191,36,0.08),_transparent_40%)]"
       />
+
+      {/* Animated accent circle */}
       <motion.div
         aria-hidden
         className="absolute -right-24 top-24 z-20 h-64 w-64 rounded-full bg-accent/20 blur-[120px]"
@@ -56,6 +68,8 @@ export function HeroSection() {
             : { duration: 18, repeat: Infinity, ease: "easeInOut" }
         }
       />
+
+      {/* Hero content */}
       <div className="relative z-30 mx-auto flex min-h-[70svh] w-full max-w-6xl items-center justify-center px-6 text-center sm:min-h-[70vh]">
         <h1 className="font-display text-[clamp(2.75rem,7vw,6rem)] font-semibold text-foreground">
           Powered By WebBuilders.
