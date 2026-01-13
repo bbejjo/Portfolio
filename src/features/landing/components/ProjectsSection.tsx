@@ -725,7 +725,7 @@ return (
     { src: "/images/steel_mockupA.png", alt: "Steel mockup one" },
     { src: "/images/steel_mockupB.png", alt: "Steel mockup two" },
     { src: "/images/steel_mockupC.png", alt: "Steel mockup three" },
-    { src: "/images/steel_mockupD.png", alt: "Steel mockup four" },
+    { src: "/images/steel_mockupE.jpg", alt: "Steel mockup four" },
   ].map((image) => (
     <div
       key={image.src}
