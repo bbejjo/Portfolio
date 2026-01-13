@@ -943,7 +943,7 @@ export function ProjectsSection() {
                   ? { duration: 0 }
                   : { type: "spring", stiffness: 180, damping: 26 }
               }
-              className="h-[75vh] sm:h-[90vh] w-full overflow-hidden rounded-t-3xl border border-white/10 bg-surface-2/90 shadow-2xl will-change-transform"
+              className="h-[85vh] sm:h-[90vh] w-full overflow-hidden rounded-t-3xl border border-white/10 bg-surface-2/90 shadow-2xl will-change-transform"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex h-full flex-col">
