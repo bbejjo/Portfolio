@@ -119,7 +119,7 @@ export function SiteHeader() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.25 }}
-                className="absolute left-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-lg backdrop-blur-xl"
+                className="absolute right-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-lg backdrop-blur-xl"
               >
                 <div className="flex flex-col py-2">
                   {navItems.map((item, index) => (

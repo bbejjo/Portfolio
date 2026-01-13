@@ -3,64 +3,64 @@
 import { motion } from "framer-motion";
 import ASMRStaticBackground from "@/components/ui/demo";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
-import { useEffect, useState } from "react";
 
 export function HeroSection() {
   const shouldReduceMotion = usePrefersReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
-
-  // ---- Initialize hero height early to avoid CLS ----
-  const [initialHeroHeight] = useState(700); // realistic approximate hero height in px
-
-  useEffect(() => {
-    // Detect all touch devices reliably (iPhones + all iPads)
-    const isTouchDevice =
-      "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0 ||
-      navigator.maxTouchPoints > 0;
-
-    setIsMobile(isTouchDevice);
-  }, []);
 
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] w-full max-w-full scroll-mt-16 overflow-hidden bg-background pb-24 pt-20 sm:min-h-[100vh] sm:pt-28"
-      style={{ "--hero-height": `${initialHeroHeight}px` } as React.CSSProperties}
+      className="relative min-h-[100svh] w-full overflow-hidden bg-background pb-24 pt-20 sm:min-h-[100vh] sm:pt-28"
     >
-      {/* Background: Video on touch devices, ASMRStaticBackground on desktop */}
-      <div aria-hidden className="absolute inset-0 z-0">
-        {isMobile ? (
-          <video
-            className="h-full w-full object-cover"
-            src="/videos/mob-hero.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
-        ) : (
-          <ASMRStaticBackground
-            className="h-full w-full"
-            showOverlay={false}
-            showCursor={false}
-            interactive={!shouldReduceMotion}
-          />
-        )}
-      </div>
-
-      {/* Gradient overlay (optional, does not affect video black background) */}
+      {/* ===== DESKTOP HERO (ALWAYS DESKTOP) ===== */}
       <div
         aria-hidden
-        className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_30%_30%,_rgba(251,191,36,0.08),_transparent_40%)]"
-      />
+        className="
+          absolute inset-0 z-0
+          opacity-100
+          max-md:opacity-0 max-md:pointer-events-none
+        "
+      >
+        <ASMRStaticBackground
+          className="h-full w-full"
+          showOverlay={false}
+          showCursor={false}
+          interactive={!shouldReduceMotion}
+        />
+      </div>
 
-      {/* Animated accent circle */}
+      {/* ===== MOBILE HERO (ALWAYS MOBILE) ===== */}
+      <div
+        aria-hidden
+        className="
+          absolute inset-0 z-0
+          opacity-0 pointer-events-none
+          max-md:opacity-100 max-md:pointer-events-auto
+        "
+      >
+        <video
+          className="h-full w-full object-cover"
+          src="/videos/mob-hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      </div>
+
+      {/* Desktop-only animated accent */}
       <motion.div
         aria-hidden
-        className="absolute -right-24 top-24 z-20 h-64 w-64 rounded-full bg-accent/20 blur-[120px]"
+        className="
+          absolute -right-24 top-24 z-20 h-64 w-64 rounded-full
+          bg-accent/20 blur-[120px]
+          opacity-100 max-md:opacity-0
+          pointer-events-none
+        "
         animate={
-          shouldReduceMotion ? { x: 0, y: 0 } : { x: [0, -30, 0], y: [0, 20, 0] }
+          shouldReduceMotion
+            ? { x: 0, y: 0 }
+            : { x: [0, -30, 0], y: [0, 20, 0] }
         }
         transition={
           shouldReduceMotion
@@ -69,8 +69,8 @@ export function HeroSection() {
         }
       />
 
-      {/* Hero content */}
-      <div className="relative z-30 mx-auto flex min-h-[70svh] w-full max-w-6xl items-center justify-center px-6 text-center sm:min-h-[70vh]">
+      {/* Content */}
+      <div className="relative z-30 mx-auto flex min-h-[70svh] max-w-6xl items-center justify-center px-6 text-center sm:min-h-[70vh]">
         <h1 className="font-display text-[clamp(2.75rem,7vw,6rem)] font-semibold text-foreground">
           Powered By WebBuilders.
         </h1>
