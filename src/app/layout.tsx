@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Syne } from "next/font/google";
 import "./globals.css";
+import { ScrollToTopOnLoad } from "@/components/ScrollToTopOnLoad";
 
 const bodyFont = Manrope({
   variable: "--font-body",
@@ -45,6 +46,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${bodyFont.variable} ${displayFont.variable} bg-background font-sans text-foreground antialiased`}
       >
+        <ScrollToTopOnLoad />
         {children}
       </body>
     </html>

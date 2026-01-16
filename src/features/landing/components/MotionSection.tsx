@@ -7,7 +7,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { MediaLoader } from "@/components/ui/media-with-loader";
 
 type ThrowVector = {
   x: number;
@@ -126,6 +127,7 @@ type ThrowImageProps = {
 };
 
 function ThrowImage({ item, progress, reduceMotion }: ThrowImageProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
   const start = reduceMotion ? { x: 0, y: 0, rotate: 0, scale: 1 } : item.start;
   const end = reduceMotion ? { x: 0, y: 0, rotate: 0, scale: 1 } : item.end;
   const arc = reduceMotion ? { x: 0, y: 0 } : item.arc;
@@ -175,8 +177,13 @@ function ThrowImage({ item, progress, reduceMotion }: ThrowImageProps) {
           alt={item.alt}
           fill
           sizes="(max-width: 640px) 12rem, (max-width: 1024px) 16rem, 20rem"
-          className="h-full w-full rounded-2xl object-cover"
+          className={`h-full w-full rounded-2xl object-cover transition-opacity duration-500 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoadingComplete={() => setIsLoaded(true)}
+          onError={() => setIsLoaded(true)}
         />
+        <MediaLoader isLoaded={isLoaded} />
       </motion.div>
     </div>
   );

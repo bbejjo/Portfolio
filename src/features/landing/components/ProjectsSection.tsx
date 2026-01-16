@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import {
+  ImageWithLoader,
+  MediaPlaceholder,
+  VideoWithLoader,
+} from "@/components/ui/media-with-loader";
 import { SectionFrame } from "./SectionFrame";
 import { SectionHeader } from "./SectionHeader";
 import { projects } from "../data/projects";
@@ -83,7 +87,7 @@ function MemorifyPreview() {
       <div className="flex w-full flex-col items-center gap-6 sm:hidden">
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/pic.png"
               alt="Memorify page preview one"
               width={1200}
@@ -92,10 +96,11 @@ function MemorifyPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[15px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
@@ -104,7 +109,7 @@ function MemorifyPreview() {
         </p>
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/pic@.png"
               alt="Memorify page preview two"
               width={1200}
@@ -113,10 +118,11 @@ function MemorifyPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[15px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
@@ -124,7 +130,7 @@ function MemorifyPreview() {
         </p>
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/pc2.png"
               alt="Memorify desktop layout"
               width={1200}
@@ -133,10 +139,11 @@ function MemorifyPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[20px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -144,7 +151,7 @@ function MemorifyPreview() {
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
             ? memorifyPreviewImages.map((image) => (
-                <Image
+                <ImageWithLoader
                   key={image.src}
                   src={image.src}
                   alt={image.alt}
@@ -154,13 +161,14 @@ function MemorifyPreview() {
                   placeholder="blur"
                   blurDataURL={memorifyPlaceholder}
                   loading="lazy"
+                  wrapperClassName="w-full"
                   className="h-auto w-full object-cover"
                 />
               ))
             : Array.from({ length: 2 }).map((_, index) => (
-                <div
+                <MediaPlaceholder
                   key={`preview-placeholder-${index}`}
-                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                  className="aspect-[4/3] w-full"
                 />
               ))}
         </div>
@@ -173,7 +181,7 @@ function MemorifyPreview() {
             {memorifyDetailText}
           </p>
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/pc2.png"
               alt="Memorify desktop layout"
               width={1200}
@@ -182,10 +190,11 @@ function MemorifyPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -196,7 +205,7 @@ function MemorifyPreview() {
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
         {showWatchImages
           ? memorifyWatchImages.map((image) => (
-              <Image
+              <ImageWithLoader
                 key={image.src}
                 src={image.src}
                 alt={image.alt}
@@ -206,13 +215,14 @@ function MemorifyPreview() {
                 placeholder="blur"
                 blurDataURL={memorifyPlaceholder}
                 loading="lazy"
+                wrapperClassName="w-full overflow-hidden rounded-2xl"
                 className="h-auto w-full rounded-2xl object-cover"
               />
             ))
           : Array.from({ length: 4 }).map((_, index) => (
-              <div
+              <MediaPlaceholder
                 key={`watch-placeholder-${index}`}
-                className="aspect-square w-full animate-pulse rounded-2xl bg-white/5"
+                className="aspect-square w-full rounded-2xl"
               />
             ))}
       </div>
@@ -275,7 +285,7 @@ function MaeliPreview() {
       <div className="flex w-full flex-col items-center gap-6 sm:hidden">
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/maeli1.png"
               alt="Maeli page preview one"
               width={1200}
@@ -284,10 +294,11 @@ function MaeliPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[15px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
 
@@ -297,7 +308,7 @@ function MaeliPreview() {
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/maeli2.png"
               alt="Maeli page preview two"
               width={1200}
@@ -306,10 +317,11 @@ function MaeliPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[12px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
 
@@ -319,7 +331,7 @@ function MaeliPreview() {
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/maeliPC.png"
               alt="Maeli desktop layout"
               width={1200}
@@ -328,10 +340,11 @@ function MaeliPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[25px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -341,7 +354,7 @@ function MaeliPreview() {
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
             ? maeliPreviewImages.map((image) => (
-                <Image
+                <ImageWithLoader
                   key={image.src}
                   src={image.src}
                   alt={image.alt}
@@ -351,13 +364,14 @@ function MaeliPreview() {
                   placeholder="blur"
                   blurDataURL={memorifyPlaceholder}
                   loading="lazy"
+                  wrapperClassName="w-full"
                   className="h-auto w-full object-cover"
                 />
               ))
             : Array.from({ length: 2 }).map((_, index) => (
-                <div
+                <MediaPlaceholder
                   key={`preview-placeholder-${index}`}
-                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                  className="aspect-[4/3] w-full"
                 />
               ))}
         </div>
@@ -371,7 +385,7 @@ function MaeliPreview() {
             {maeliDetailText}
           </p>
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/maeliPC.png"
               alt="Maeli desktop layout"
               width={1200}
@@ -380,10 +394,11 @@ function MaeliPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -393,7 +408,7 @@ function MaeliPreview() {
       </h4>
 
       <div className="mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-3xl">
-        <video
+        <VideoWithLoader
           ref={videoRef}
           src="/videos/video.mp4"
           loop
@@ -401,6 +416,7 @@ function MaeliPreview() {
           playsInline
           preload="auto"
           controls={false}
+          wrapperClassName="h-full w-full"
           className="h-[220px] sm:h-[320px] md:h-[520px] w-full object-cover"
         />
       </div>
@@ -440,7 +456,7 @@ function KutaisiPreview() {
       <div className="flex w-full flex-col items-center gap-6 sm:hidden">
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/kutaisi1.png"
               alt="Guide in Kutaisi page preview one"
               width={1200}
@@ -449,10 +465,11 @@ function KutaisiPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[15px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
 
@@ -462,7 +479,7 @@ function KutaisiPreview() {
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/kutaisi2.png"
               alt="Guide in Kutaisi page preview two"
               width={1200}
@@ -471,10 +488,11 @@ function KutaisiPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[15px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
 
@@ -484,7 +502,7 @@ function KutaisiPreview() {
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/kutaisi3.png"
               alt="Guide in Kutaisi desktop layout"
               width={1200}
@@ -493,10 +511,11 @@ function KutaisiPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full translate-x-[20px] object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -506,7 +525,7 @@ function KutaisiPreview() {
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
             ? kutaisiPreviewImages.map((image) => (
-                <Image
+                <ImageWithLoader
                   key={image.src}
                   src={image.src}
                   alt={image.alt}
@@ -516,13 +535,14 @@ function KutaisiPreview() {
                   placeholder="blur"
                   blurDataURL={memorifyPlaceholder}
                   loading="lazy"
+                  wrapperClassName="w-full"
                   className="h-auto w-full object-cover"
                 />
               ))
             : Array.from({ length: 2 }).map((_, index) => (
-                <div
+                <MediaPlaceholder
                   key={`preview-placeholder-${index}`}
-                  className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                  className="aspect-[4/3] w-full"
                 />
               ))}
         </div>
@@ -534,7 +554,7 @@ function KutaisiPreview() {
             {kutaisiDetailText}
           </p>
           {showPrimaryImages ? (
-            <Image
+            <ImageWithLoader
               src="/images/kutaisi3.png"
               alt="Guide in Kutaisi desktop layout"
               width={1200}
@@ -543,10 +563,11 @@ function KutaisiPreview() {
               placeholder="blur"
               blurDataURL={memorifyPlaceholder}
               loading="lazy"
+              wrapperClassName="w-full"
               className="h-auto w-full object-cover"
             />
           ) : (
-            <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+            <MediaPlaceholder className="aspect-[4/3] w-full" />
           )}
         </div>
       </div>
@@ -563,7 +584,7 @@ function KutaisiPreview() {
     { src: "/images/kutaisi_mockup4.png", alt: "Guide in Kutaisi mockup four" },
   ].map((image) => (
     <div key={image.src} className="flex justify-center">
-      <Image
+      <ImageWithLoader
         src={image.src}
         alt={image.alt}
         width={400}   // intrinsic resolution
@@ -572,6 +593,7 @@ function KutaisiPreview() {
         placeholder="blur"
         blurDataURL={memorifyPlaceholder}
         loading="lazy"
+        wrapperClassName="w-full overflow-hidden rounded-2xl"
         className="h-[200px] sm:h-[250px] md:h-[530px] w-11/12 xl:w-full rounded-2xl object-cover"
       />
     </div>
@@ -610,7 +632,7 @@ return (
     <div className="flex w-full flex-col items-center gap-6 sm:hidden">
       <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
         {showPrimaryImages ? (
-          <Image
+          <ImageWithLoader
             src="/images/steel1.png"
             alt="Steel Company page preview one"
             width={1200}
@@ -619,10 +641,11 @@ return (
             placeholder="blur"
             blurDataURL={memorifyPlaceholder}
             loading="lazy"
+            wrapperClassName="w-full"
             className="h-auto w-full translate-x-[15px] object-cover"
           />
         ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          <MediaPlaceholder className="aspect-[4/3] w-full" />
         )}
       </div>
       <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
@@ -630,7 +653,7 @@ return (
       </p>
       <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
         {showPrimaryImages ? (
-          <Image
+          <ImageWithLoader
             src="/images/steel2.png"
             alt="Steel Company page preview two"
             width={1200}
@@ -639,10 +662,11 @@ return (
             placeholder="blur"
             blurDataURL={memorifyPlaceholder}
             loading="lazy"
+            wrapperClassName="w-full"
             className="h-auto w-full translate-x-[15px] object-cover"
           />
         ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          <MediaPlaceholder className="aspect-[4/3] w-full" />
         )}
       </div>
       <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
@@ -650,7 +674,7 @@ return (
       </p>
       <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
         {showPrimaryImages ? (
-          <Image
+          <ImageWithLoader
             src="/images/steel3.png"
             alt="Steel Company desktop layout"
             width={1200}
@@ -659,10 +683,11 @@ return (
             placeholder="blur"
             blurDataURL={memorifyPlaceholder}
             loading="lazy"
+            wrapperClassName="w-full"
             className="h-auto w-full translate-x-[20px] object-cover"
           />
         ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          <MediaPlaceholder className="aspect-[4/3] w-full" />
         )}
       </div>
     </div>
@@ -672,7 +697,7 @@ return (
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
         {showPrimaryImages
           ? steelPreviewImages.map((image) => (
-              <Image
+              <ImageWithLoader
                 key={image.src}
                 src={image.src}
                 alt={image.alt}
@@ -682,13 +707,14 @@ return (
                 placeholder="blur"
                 blurDataURL={memorifyPlaceholder}
                 loading="lazy"
+                wrapperClassName="w-full"
                 className="h-auto w-full object-cover"
               />
             ))
           : Array.from({ length: 2 }).map((_, index) => (
-              <div
+              <MediaPlaceholder
                 key={`preview-placeholder-${index}`}
-                className="aspect-[4/3] w-full animate-pulse bg-white/5"
+                className="aspect-[4/3] w-full"
               />
             ))}
       </div>
@@ -700,7 +726,7 @@ return (
           {steelDetailText}
         </p>
         {showPrimaryImages ? (
-          <Image
+          <ImageWithLoader
             src="/images/steel3.png"
             alt="Steel Company desktop layout"
             width={1200}
@@ -709,10 +735,11 @@ return (
             placeholder="blur"
             blurDataURL={memorifyPlaceholder}
             loading="lazy"
+            wrapperClassName="w-full"
             className="h-auto w-full object-cover"
           />
         ) : (
-          <div className="aspect-[4/3] w-full animate-pulse bg-white/5" />
+          <MediaPlaceholder className="aspect-[4/3] w-full" />
         )}
       </div>
     </div>
@@ -731,7 +758,7 @@ return (
       key={image.src}
       className="relative w-full overflow-hidden rounded-2xl"
     >
-      <Image
+      <ImageWithLoader
         src={image.src}
         alt={image.alt}
         width={1200}
@@ -740,6 +767,7 @@ return (
         placeholder="blur"
         blurDataURL={memorifyPlaceholder}
         loading="lazy"
+        wrapperClassName="h-full w-full"
         className="h-[140px] sm:h-[260px] md:h-[300px] w-full object-cover"
       />
     </div>

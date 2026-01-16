@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { easeInOut } from "framer-motion";
-import Image from "next/image";
+import { ImageWithLoader } from "@/components/ui/media-with-loader";
 import { InfiniteSlider } from "../components/InfiniteSlider";
 
 const aboutLines = [
@@ -99,12 +99,13 @@ export function AboutSection({
         <div className="lg:w-1/3 w-full flex flex-col gap-4">
           {/* Slider 1 — normal */}
           <InfiniteSlider duration={18}>
-            <Image
+            <ImageWithLoader
               src="/images/slider-dsg.png"
               alt="Slider 1"
               width={1000}
               height={160}
               className="h-32 w-auto object-contain px-10"
+              wrapperClassName="inline-flex overflow-hidden"
               priority
             />
           </InfiniteSlider>
@@ -120,12 +121,13 @@ className="
   shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]
 "
 >
-  <Image
+  <ImageWithLoader
     src="/images/slider-bck.png"
     alt="Slider 2"
     width={1000}
     height={160}
     className="h-32 w-auto object-contain px-10"
+    wrapperClassName="inline-flex overflow-hidden"
     priority
   />
 </InfiniteSlider>
@@ -133,12 +135,13 @@ className="
 
           {/* Slider 3 — normal */}
           <InfiniteSlider duration={18}>
-            <Image
+            <ImageWithLoader
               src="/images/slider-frt.png"
               alt="Slider 3"
               width={1000}
               height={160}
               className="h-32 w-auto object-contain px-10"
+              wrapperClassName="inline-flex overflow-hidden"
               priority
             />
           </InfiniteSlider>
