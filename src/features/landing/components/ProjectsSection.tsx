@@ -865,7 +865,7 @@ export function ProjectsSection() {
     <section
       id="projects"
       ref={ref}
-      className="scroll-mt-16 bg-background py-20"
+      className="section-defer scroll-mt-16 bg-background py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6">
         <SectionHeader

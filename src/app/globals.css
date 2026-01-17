@@ -134,3 +134,8 @@ body {
     opacity: 1;
   }
 }
+
+.section-defer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1200px;
+}

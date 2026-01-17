@@ -3,7 +3,10 @@ import { ContactInteractive } from "./ContactInteractive";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="scroll-mt-16 bg-background py-24">
+    <section
+      id="contact"
+      className="section-defer scroll-mt-16 bg-background py-24"
+    >
       <div className="mx-auto w-full max-w-6xl px-6">
         <SectionHeader
           eyebrow="Contact us"

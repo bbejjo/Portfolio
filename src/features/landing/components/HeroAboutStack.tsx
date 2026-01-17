@@ -16,6 +16,8 @@ type StackSizes = {
   hero: number;
 };
 
+const DEFAULT_VIEWPORT_HEIGHT = 800;
+
 // ---- Sticky scroll constants (longer sticky + full reveal) ----
 const REVEAL_DELAY_VH = 10;     // start reveal after 10vh
 const REVEAL_HOLD_VH = 20;      // keep sticky after full reveal
@@ -25,9 +27,11 @@ export function HeroAboutStack() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
 
-  const [sizes, setSizes] = useState<StackSizes>({ hero: 700 });
+  const [sizes, setSizes] = useState<StackSizes>({
+    hero: DEFAULT_VIEWPORT_HEIGHT,
+  });
   const [viewportHeight, setViewportHeight] = useState(
-    typeof window !== "undefined" ? window.innerHeight : 800
+    DEFAULT_VIEWPORT_HEIGHT
   );
   const [revealProgressValue, setRevealProgressValue] = useState(0);
   const revealMetricsRef = useRef({
@@ -37,7 +41,6 @@ export function HeroAboutStack() {
     aboutMinHeight: 0,
     viewportHeight: viewportHeight,
   });
-  const [isClient, setIsClient] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -113,6 +116,14 @@ export function HeroAboutStack() {
     return () => observer.disconnect();
   }, []);
 
+  // ---- Keep viewport height updated
+  useLayoutEffect(() => {
+    const updateViewport = () => setViewportHeight(window.innerHeight);
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
+
   // ---- Update reveal progress
   useEffect(() => {
     const nextMetrics = {
@@ -145,20 +156,7 @@ export function HeroAboutStack() {
     return () => unsubscribe();
   }, [scrollYProgress]);
 
-  // ---- Keep viewport height updated
-  useEffect(() => {
-    const updateViewport = () => setViewportHeight(window.innerHeight);
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-    return () => window.removeEventListener("resize", updateViewport);
-  }, []);
-
-  // ---- Client hydration flag
-  useEffect(() => setIsClient(true), []);
-
-  const effectiveMinHeight = isClient
-    ? Math.round(aboutMinHeight)
-    : 2000;
+  const effectiveMinHeight = Math.round(aboutMinHeight);
 
   return (
     <div ref={containerRef} className="relative" style={containerStyle}>

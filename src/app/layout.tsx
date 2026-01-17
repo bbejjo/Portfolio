@@ -6,12 +6,18 @@ import { ScrollToTopOnLoad } from "@/components/ScrollToTopOnLoad";
 const bodyFont = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 const displayFont = Syne({
   variable: "--font-heading",
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
+  display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
