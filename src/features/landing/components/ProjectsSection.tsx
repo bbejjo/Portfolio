@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import {
   ImageWithLoader,
@@ -9,52 +10,33 @@ import {
 } from "@/components/ui/media-with-loader";
 import { SectionFrame } from "./SectionFrame";
 import { SectionHeader } from "./SectionHeader";
-import { projects } from "../data/projects";
+import type { Project } from "../data/projects";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
+import type { Translations } from "@/i18n/translations";
 
-const memorifyPreviewImages = [
-  { src: "/images/pic.png", alt: "Memorify page preview one" },
-  { src: "/images/pic@.png", alt: "Memorify page preview two" },
-];
+const memorifyPreviewImages = ["/images/pic.png", "/images/pic@.png"];
 
-const maeliPreviewImages = [
-  { src: "/images/maeli1.png", alt: "Maeli LLc page preview one" },
-  { src: "/images/maeli2.png", alt: "Maeli LLc page preview two" },
-];
+const maeliPreviewImages = ["/images/maeli1.png", "/images/maeli2.png"];
 
-const kutaisiPreviewImages = [
-  { src: "/images/kutaisi1.png", alt: "Guide in Kutaisi page preview one" },
-  { src: "/images/kutaisi2.png", alt: "Guide in Kutaisi page preview two" },
-];
+const kutaisiPreviewImages = ["/images/kutaisi1.png", "/images/kutaisi2.png"];
 
-const steelPreviewImages = [
-  { src: "/images/steel1.png", alt: "Steel Company page preview one" },
-  { src: "/images/steel2.png", alt: "Steel Company page preview two" },
-];
+const steelPreviewImages = ["/images/steel1.png", "/images/steel2.png"];
 
 const memorifyPlaceholder =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='32' height='32' fill='%23111827'/></svg>";
 
 const memorifyWatchImages = [
-  { src: "/images/watch1.png", alt: "Memorify watch view one" },
-  { src: "/images/watch2.png", alt: "Memorify watch view two" },
-  { src: "/images/watch3.png", alt: "Memorify watch view three" },
-  { src: "/images/watch4.png", alt: "Memorify watch view four" },
+  "/images/watch1.png",
+  "/images/watch2.png",
+  "/images/watch3.png",
+  "/images/watch4.png",
 ];
 
-const memorifyDetailText =
-  "Memorify is a clean and minimal website concept focused on preserving memories through an intultive and responsive user interface. The project emphasizes clarity, emotional storytelling, and consistent design across devices.";
+type MemorifyPreviewProps = {
+  copy: Translations["projects"]["previews"]["memorify"];
+};
 
-const maeliDetailText =
-  "Maeli LLC is a modern auto transport platform built to simplify nationwide car shipping with fast quotes, transparent communication, and reliable coverage across the U.S.";
-
-const kutaisiDetailText =
-  "Guide in Kutaisi is a modern city guide platform built to help visitors explore Kutaisi’s landmarks, history, and local culture through a clean, accessible, and user-friendly interface. The website focuses on clear navigation, visual storytelling, and practical information to make discovering the city simple and engaging for tourists and locals alike.";
-
-const steelDetailText =
-  "Steel Company is an interactive corporate microsite highlighting advanced steel products, technology showcases, and immersive visual storytelling.";
-
-function MemorifyPreview() {
+function MemorifyPreview({ copy }: MemorifyPreviewProps) {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
   const [showWatchImages, setShowWatchImages] = useState(false);
 
@@ -77,11 +59,10 @@ function MemorifyPreview() {
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
       <div className="text-center">
         <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-          Preview of website - Memorify.
+          {copy.title}
         </h3>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          A modern web platform designed to capture and revisit meaningful
-          moments.
+          {copy.subtitle}
         </p>
       </div>
       <div className="flex w-full flex-col items-center gap-6 sm:hidden">
@@ -89,7 +70,7 @@ function MemorifyPreview() {
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/pic.png"
-              alt="Memorify page preview one"
+              alt={copy.images.primary[0]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -104,14 +85,13 @@ function MemorifyPreview() {
           )}
         </div>
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique Ul/UX design for
-          Memorify brand.
+          {copy.teamLine}
         </p>
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/pic@.png"
-              alt="Memorify page preview two"
+              alt={copy.images.primary[1]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -126,13 +106,13 @@ function MemorifyPreview() {
           )}
         </div>
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-          {memorifyDetailText}
+          {copy.detail}
         </p>
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/pc2.png"
-              alt="Memorify desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -150,11 +130,11 @@ function MemorifyPreview() {
       <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
-            ? memorifyPreviewImages.map((image) => (
+            ? memorifyPreviewImages.map((src, index) => (
                 <ImageWithLoader
-                  key={image.src}
-                  src={image.src}
-                  alt={image.alt}
+                  key={src}
+                  src={src}
+                  alt={copy.images.primary[index] ?? copy.images.primary[0]}
                   width={1200}
                   height={900}
                   sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
@@ -173,17 +153,16 @@ function MemorifyPreview() {
               ))}
         </div>
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique Ul/UX design for
-          Memorify brand.
+          {copy.teamLine}
         </p>
         <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
           <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-            {memorifyDetailText}
+            {copy.detail}
           </p>
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/pc2.png"
-              alt="Memorify desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 768px) 90vw, 45vw"
@@ -199,16 +178,15 @@ function MemorifyPreview() {
         </div>
       </div>
       <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
-        Minimal interface, soft visual rhythm, and a calm color palette to
-        support a memory-driven experience without visual noise.
+        {copy.highlight}
       </h4>
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
         {showWatchImages
-          ? memorifyWatchImages.map((image) => (
+          ? memorifyWatchImages.map((src, index) => (
               <ImageWithLoader
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
+                key={src}
+                src={src}
+                alt={copy.images.watch[index] ?? copy.images.watch[0]}
                 width={900}
                 height={900}
                 sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 420px"
@@ -230,7 +208,12 @@ function MemorifyPreview() {
   );
 }
 
-function MaeliPreview() {
+type MaeliPreviewProps = {
+  copy: Translations["projects"]["previews"]["maeli"];
+  livePreviewLabel: string;
+};
+
+function MaeliPreview({ copy, livePreviewLabel }: MaeliPreviewProps) {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -274,10 +257,10 @@ function MaeliPreview() {
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
       <div className="text-center">
         <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-          Preview of website - Maeli LLC.
+          {copy.title}
         </h3>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          A modern web platform built to simplify car shipping, providing fast quotes, transparent communication, and nationwide coverage.
+          {copy.subtitle}
         </p>
       </div>
 
@@ -287,7 +270,7 @@ function MaeliPreview() {
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/maeli1.png"
-              alt="Maeli page preview one"
+              alt={copy.images.primary[0]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -303,14 +286,14 @@ function MaeliPreview() {
         </div>
 
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique UI/UX design for Maeli LLC Company.
+          {copy.teamLine}
         </p>
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/maeli2.png"
-              alt="Maeli page preview two"
+              alt={copy.images.primary[1]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -326,14 +309,14 @@ function MaeliPreview() {
         </div>
 
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-          {maeliDetailText}
+          {copy.detail}
         </p>
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/maeliPC.png"
-              alt="Maeli desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -353,11 +336,11 @@ function MaeliPreview() {
       <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
-            ? maeliPreviewImages.map((image) => (
+            ? maeliPreviewImages.map((src, index) => (
                 <ImageWithLoader
-                  key={image.src}
-                  src={image.src}
-                  alt={image.alt}
+                  key={src}
+                  src={src}
+                  alt={copy.images.primary[index] ?? copy.images.primary[0]}
                   width={1200}
                   height={900}
                   sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
@@ -377,17 +360,17 @@ function MaeliPreview() {
         </div>
 
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique UI/UX design for Maeli LLC Company.
+          {copy.teamLine}
         </p>
 
         <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
           <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-            {maeliDetailText}
+            {copy.detail}
           </p>
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/maeliPC.png"
-              alt="Maeli desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 768px) 90vw, 45vw"
@@ -404,7 +387,7 @@ function MaeliPreview() {
       </div>
 
       <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
-        Live Company preview
+        {livePreviewLabel}
       </h4>
 
       <div className="mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-3xl">
@@ -428,7 +411,11 @@ function MaeliPreview() {
 
 
 
-function KutaisiPreview() {
+type KutaisiPreviewProps = {
+  copy: Translations["projects"]["previews"]["kutaisi"];
+};
+
+function KutaisiPreview({ copy }: KutaisiPreviewProps) {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
 
   useEffect(() => {
@@ -445,10 +432,10 @@ function KutaisiPreview() {
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
       <div className="text-center">
         <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-          Preview of website - Guide in Kutaisi.
+          {copy.title}
         </h3>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-          A modern travel guide built to help visitors explore Kutaisi with clarity and inspiration.
+          {copy.subtitle}
         </p>
       </div>
 
@@ -458,7 +445,7 @@ function KutaisiPreview() {
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/kutaisi1.png"
-              alt="Guide in Kutaisi page preview one"
+              alt={copy.images.primary[0]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -474,14 +461,14 @@ function KutaisiPreview() {
         </div>
 
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique Ul/UX design for Guide in Kutaisi.
+          {copy.teamLine}
         </p>
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/kutaisi2.png"
-              alt="Guide in Kutaisi page preview two"
+              alt={copy.images.primary[1]}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -497,14 +484,14 @@ function KutaisiPreview() {
         </div>
 
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-          {kutaisiDetailText}
+          {copy.detail}
         </p>
 
         <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/kutaisi3.png"
-              alt="Guide in Kutaisi desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 640px) 92vw, 520px"
@@ -524,11 +511,11 @@ function KutaisiPreview() {
       <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
         <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
           {showPrimaryImages
-            ? kutaisiPreviewImages.map((image) => (
+            ? kutaisiPreviewImages.map((src, index) => (
                 <ImageWithLoader
-                  key={image.src}
-                  src={image.src}
-                  alt={image.alt}
+                  key={src}
+                  src={src}
+                  alt={copy.images.primary[index] ?? copy.images.primary[0]}
                   width={1200}
                   height={900}
                   sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
@@ -547,16 +534,16 @@ function KutaisiPreview() {
               ))}
         </div>
         <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-          Our Team created full responsive Web site with unique Ul/UX design for Guide in Kutaisi.
+          {copy.teamLine}
         </p>
         <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
           <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-            {kutaisiDetailText}
+            {copy.detail}
           </p>
           {showPrimaryImages ? (
             <ImageWithLoader
               src="/images/kutaisi3.png"
-              alt="Guide in Kutaisi desktop layout"
+              alt={copy.images.desktop}
               width={1200}
               height={900}
               sizes="(max-width: 768px) 90vw, 45vw"
@@ -573,20 +560,20 @@ function KutaisiPreview() {
       </div>
 
       <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
-        Designed with minimalism in mind, this grid uses soft colors and a calm rhythm to showcase Kutaisi, creating a serene, memory-focused experience free of visual noise.
+        {copy.highlight}
       </h4>
             {/* Kutaisi mockup grid below all existing content */}
 <div className="grid w-full max-w-5xl grid-cols-2 gap-4 mt-8 mx-auto">
   {[
-    { src: "/images/kutaisi_mockup.png", alt: "Guide in Kutaisi mockup one" },
-    { src: "/images/kutaisi_mockup2.png", alt: "Guide in Kutaisi mockup two" },
-    { src: "/images/kutaisi_mockup3.png", alt: "Guide in Kutaisi mockup three" },
-    { src: "/images/kutaisi_mockup4.png", alt: "Guide in Kutaisi mockup four" },
-  ].map((image) => (
-    <div key={image.src} className="flex justify-center">
+    "/images/kutaisi_mockup.png",
+    "/images/kutaisi_mockup2.png",
+    "/images/kutaisi_mockup3.png",
+    "/images/kutaisi_mockup4.png",
+  ].map((src, index) => (
+    <div key={src} className="flex justify-center">
       <ImageWithLoader
-        src={image.src}
-        alt={image.alt}
+        src={src}
+        alt={copy.images.mockups[index] ?? copy.images.mockups[0]}
         width={400}   // intrinsic resolution
         height={400}  // intrinsic resolution
         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 400px"
@@ -604,7 +591,12 @@ function KutaisiPreview() {
   );
 }
 
-function SteelPreview() {
+type SteelPreviewProps = {
+  copy: Translations["projects"]["previews"]["steel"];
+  brandCardsLabel: string;
+};
+
+function SteelPreview({ copy, brandCardsLabel }: SteelPreviewProps) {
   const [showPrimaryImages, setShowPrimaryImages] = useState(false);
 
   useEffect(() => {
@@ -621,10 +613,10 @@ return (
   <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-6 pb-16 pt-8 sm:gap-12 sm:pt-10">
     <div className="text-center">
       <h3 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-        Preview of website - Steel Company.
+        {copy.title}
       </h3>
       <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-        An immersive corporate platform showcasing advanced steel products and innovation.
+        {copy.subtitle}
       </p>
     </div>
 
@@ -634,7 +626,7 @@ return (
         {showPrimaryImages ? (
           <ImageWithLoader
             src="/images/steel1.png"
-            alt="Steel Company page preview one"
+            alt={copy.images.primary[0]}
             width={1200}
             height={900}
             sizes="(max-width: 640px) 92vw, 520px"
@@ -649,13 +641,13 @@ return (
         )}
       </div>
       <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for Steel Company.
+      {copy.teamLine}
       </p>
       <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
         {showPrimaryImages ? (
           <ImageWithLoader
             src="/images/steel2.png"
-            alt="Steel Company page preview two"
+            alt={copy.images.primary[1]}
             width={1200}
             height={900}
             sizes="(max-width: 640px) 92vw, 520px"
@@ -670,13 +662,13 @@ return (
         )}
       </div>
       <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-        {steelDetailText}
+      {copy.detail}
       </p>
       <div className="mx-auto flex w-[calc(97vw-3rem)] max-w-[520px] justify-center">
         {showPrimaryImages ? (
           <ImageWithLoader
             src="/images/steel3.png"
-            alt="Steel Company desktop layout"
+            alt={copy.images.desktop}
             width={1200}
             height={900}
             sizes="(max-width: 640px) 92vw, 520px"
@@ -696,11 +688,11 @@ return (
     <div className="hidden w-full flex-col gap-8 sm:flex sm:gap-12">
       <div className="grid w-full grid-cols-2 gap-4 sm:gap-6">
         {showPrimaryImages
-          ? steelPreviewImages.map((image) => (
+          ? steelPreviewImages.map((src, index) => (
               <ImageWithLoader
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
+                key={src}
+                src={src}
+                alt={copy.images.primary[index] ?? copy.images.primary[0]}
                 width={1200}
                 height={900}
                 sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
@@ -719,16 +711,16 @@ return (
             ))}
       </div>
       <p className="mx-auto max-w-3xl text-center text-base font-medium text-foreground sm:text-lg">
-        Our Team created full responsive Web site with unique Ul/UX design for Steel Company.
+        {copy.teamLine}
       </p>
       <div className="grid w-full grid-cols-2 items-center gap-4 sm:gap-6">
         <p className="text-center text-sm leading-relaxed text-muted sm:text-base">
-          {steelDetailText}
+          {copy.detail}
         </p>
         {showPrimaryImages ? (
           <ImageWithLoader
             src="/images/steel3.png"
-            alt="Steel Company desktop layout"
+            alt={copy.images.desktop}
             width={1200}
             height={900}
             sizes="(max-width: 768px) 90vw, 45vw"
@@ -745,22 +737,22 @@ return (
     </div>
 
         <h4 className="text-center font-display text-xl font-semibold text-foreground sm:text-2xl">
-          Company brand cards
+          {brandCardsLabel}
         </h4>
 <div className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-2 gap-6">
   {[
-    { src: "/images/steel_mockupA.png", alt: "Steel mockup one" },
-    { src: "/images/steel_mockupB.png", alt: "Steel mockup two" },
-    { src: "/images/steel_mockupC.png", alt: "Steel mockup three" },
-    { src: "/images/steel_mockupE.jpg", alt: "Steel mockup four" },
-  ].map((image) => (
+    "/images/steel_mockupA.png",
+    "/images/steel_mockupB.png",
+    "/images/steel_mockupC.png",
+    "/images/steel_mockupE.jpg",
+  ].map((src, index) => (
     <div
-      key={image.src}
+      key={src}
       className="relative w-full overflow-hidden rounded-2xl"
     >
       <ImageWithLoader
-        src={image.src}
-        alt={image.alt}
+        src={src}
+        alt={copy.images.mockups[index] ?? copy.images.mockups[0]}
         width={1200}
         height={900}
         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 480px"
@@ -788,13 +780,17 @@ return (
 
 }
 
-export function ProjectsSection() {
+type ProjectsSectionProps = {
+  copy: Translations["projects"];
+  projects: Project[];
+};
+
+export function ProjectsSection({ copy, projects }: ProjectsSectionProps) {
   const ref = useRef<HTMLElement | null>(null);
   const shouldReduceMotion = usePrefersReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
-  const [activeProject, setActiveProject] = useState<
-    (typeof projects)[number] | null
-  >(null);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)");
@@ -808,6 +804,10 @@ export function ProjectsSection() {
 
     media.addListener(update);
     return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    setPortalTarget(document.body);
   }, []);
 
   useEffect(() => {
@@ -856,10 +856,10 @@ export function ProjectsSection() {
     [0, 0.35, 1],
   );
   const frameY = useTransform(scrollYProgress, [0, 0.35, 0.6], [24, 14, 0]);
-  const isMemorify = activeProject?.title === "Memorify";
-  const isMaeli = activeProject?.title === "Maeli LLc";
-  const isKutaisi = activeProject?.title === "Guide in Kutaisi";
-  const isSteel = activeProject?.title === "Steel Company";
+  const isMemorify = activeProject?.id === "memorify";
+  const isMaeli = activeProject?.id === "maeli";
+  const isKutaisi = activeProject?.id === "kutaisi";
+  const isSteel = activeProject?.id === "steel";
 
   return (
     <section
@@ -869,9 +869,9 @@ export function ProjectsSection() {
     >
       <div className="mx-auto w-full max-w-6xl px-6">
         <SectionHeader
-          eyebrow="Our projects"
-          title="Selected work across product, platform, and brand."
-          description="A snapshot of the challenges we solve: conversion, performance, and visual storytelling."
+          eyebrow={copy.header.eyebrow}
+          title={copy.header.title}
+          description={copy.header.description}
         />
       </div>
       <div className="relative mt-8">
@@ -890,7 +890,7 @@ export function ProjectsSection() {
               className="absolute -inset-x-10 -inset-y-6 rounded-full bg-accent/25 blur-3xl"
             />
             <span className="relative block font-display text-[clamp(2.75rem,6vw,5.5rem)] font-semibold text-foreground drop-shadow-[0_0_28px_rgba(94,234,212,0.6)]">
-              Projects
+              {copy.label}
             </span>
             <span className="relative mx-auto mt-4 block h-px w-24 bg-gradient-to-r from-accent/0 via-accent/90 to-accent/0" />
           </div>
@@ -908,7 +908,7 @@ export function ProjectsSection() {
               <div className="grid justify-items-center gap-6 md:grid-cols-2 md:justify-items-stretch">
                 {projects.map((project) => (
                   <article
-                    key={project.title}
+                    key={project.id}
                     role="button"
                     tabIndex={0}
                     onClick={() => setActiveProject(project)}
@@ -948,7 +948,9 @@ export function ProjectsSection() {
           </SectionFrame>
         </motion.div>
       </div>
-      <AnimatePresence>
+      {portalTarget
+        ? createPortal(
+            <AnimatePresence>
         {activeProject ? (
           <motion.div
             className="fixed inset-0 z-50 flex items-end justify-center bg-black/90"
@@ -978,10 +980,10 @@ export function ProjectsSection() {
                 <div className="flex items-center justify-between px-6 py-4">
   <button
     onClick={() => setActiveProject(null)}
-    aria-label="Close preview"
+    aria-label={copy.closeAria}
     className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-accent"
   >
-    ✕
+    X
   </button>
 
   <a
@@ -1000,33 +1002,44 @@ export function ProjectsSection() {
         : "cursor-not-allowed opacity-60"
     }`}
   >
-    Visit website
+    {copy.visit}
   </a>
 </div>
 
                 <div className="relative flex-1 overflow-y-auto bg-[radial-gradient(circle_at_top,_rgba(94,234,212,0.12),_transparent_45%),radial-gradient(circle_at_80%_80%,_rgba(251,191,36,0.08),_transparent_40%)]">
                   {isMemorify ? (
-                    <MemorifyPreview />
+                    <MemorifyPreview copy={copy.previews.memorify} />
                   ) : isMaeli ? (
-                    <MaeliPreview />
+                    <MaeliPreview
+                      copy={copy.previews.maeli}
+                      livePreviewLabel={copy.livePreview}
+                    />
                   ) : isKutaisi ? (
-                    <KutaisiPreview />
+                    <KutaisiPreview copy={copy.previews.kutaisi} />
                   ) : isSteel ? (
-                    <SteelPreview />
+                    <SteelPreview
+                      copy={copy.previews.steel}
+                      brandCardsLabel={copy.brandCards}
+                    />
                   ) : (
                     <div className="flex h-full items-center justify-center px-6 text-sm text-muted">
-                      {activeProject.title} preview
+                      {activeProject.title} {copy.previewSuffix}
                     </div>
                   )}
                   <span className="sr-only">
-                    {activeProject.title} preview
+                    {activeProject.title} {copy.previewSuffix}
                   </span>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         ) : null}
-      </AnimatePresence>
+            </AnimatePresence>,
+            portalTarget,
+          )
+        : null}
     </section>
   );
 }
+
+

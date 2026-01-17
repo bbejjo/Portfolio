@@ -1,7 +1,12 @@
-import { SectionHeader } from "./SectionHeader";
+﻿import { SectionHeader } from "./SectionHeader";
 import { ContactInteractive } from "./ContactInteractive";
+import type { Translations } from "@/i18n/translations";
 
-export function ContactSection() {
+type ContactSectionProps = {
+  copy: Translations["contact"];
+};
+
+export function ContactSection({ copy }: ContactSectionProps) {
   return (
     <section
       id="contact"
@@ -9,11 +14,11 @@ export function ContactSection() {
     >
       <div className="mx-auto w-full max-w-6xl px-6">
         <SectionHeader
-          eyebrow="Contact us"
-          title="Let us design the next chapter of your product."
-          description="Bring a vision, a challenge, or a launch date. We will help you craft something memorable."
+          eyebrow={copy.header.eyebrow}
+          title={copy.header.title}
+          description={copy.header.description}
         />
-        <ContactInteractive />
+        <ContactInteractive copy={copy} />
       </div>
     </section>
   );

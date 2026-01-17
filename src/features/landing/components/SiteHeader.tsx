@@ -1,22 +1,40 @@
-"use client";
+﻿"use client";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import type { Translations } from "@/i18n/translations";
+import { getLocaleFromPathname } from "@/i18n/translations";
 
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Motion", href: "#motion" },
-  { label: "Contact", href: "#contact" },
-];
+type SiteHeaderProps = {
+  copy: Translations;
+};
 
-export function SiteHeader() {
+export function SiteHeader({ copy }: SiteHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const locale = getLocaleFromPathname(pathname);
+  const basePath = `/${locale}`;
+  const scrollRestoreKey = "locale-scroll-y";
+
+  const navItems = [
+    { label: copy.nav.home, href: "#home" },
+    { label: copy.nav.about, href: "#about" },
+    { label: copy.nav.projects, href: "#projects" },
+    { label: copy.nav.motion, href: "#motion" },
+    { label: copy.nav.contact, href: "#contact" },
+  ];
+
+  const languageLabel =
+    locale === "en"
+      ? copy.localeSwitch.toGeorgian
+      : copy.localeSwitch.toEnglish;
+  const languageAria =
+    locale === "en"
+      ? copy.localeSwitch.ariaToGeorgian
+      : copy.localeSwitch.ariaToEnglish;
 
   const scrollToId = (id: string) => {
     if (id === "home") {
@@ -30,7 +48,7 @@ export function SiteHeader() {
 
     const top = element.getBoundingClientRect().top + window.scrollY;
     const heroHeightValue = parseFloat(
-      getComputedStyle(element).getPropertyValue("--hero-height"),
+      getComputedStyle(element).getPropertyValue("--hero-height")
     );
     const heroHeight = Number.isFinite(heroHeightValue) ? heroHeightValue : 0;
     const extraOffset = id === "about" ? Math.max(0, heroHeight + 1) : 0;
@@ -56,7 +74,19 @@ export function SiteHeader() {
   }, [isOpen]);
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (pathname !== basePath) return;
+    const storedScroll = window.sessionStorage.getItem(scrollRestoreKey);
+    if (storedScroll) {
+      window.sessionStorage.removeItem(scrollRestoreKey);
+      const nextScroll = Number(storedScroll);
+      if (Number.isFinite(nextScroll)) {
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: nextScroll, left: 0, behavior: "auto" });
+        });
+      }
+      return;
+    }
+
     const hash = window.location.hash;
     if (!hash) return;
     const id = hash.replace("#", "");
@@ -66,15 +96,15 @@ export function SiteHeader() {
     }, 50);
 
     return () => window.clearTimeout(timeout);
-  }, [pathname]);
+  }, [pathname, basePath]);
 
   const handleNavigation = (href: string) => {
     setIsOpen(false);
 
     if (href.startsWith("#")) {
       const id = href.slice(1);
-      if (pathname !== "/") {
-        router.push(`/${href}`);
+      if (pathname !== basePath) {
+        router.push(`${basePath}${href}`);
         return;
       }
 
@@ -85,10 +115,25 @@ export function SiteHeader() {
     router.push(href);
   };
 
+  const handleLocaleToggle = () => {
+    const nextLocale = locale === "en" ? "ka" : "en";
+    const nextPath = pathname.startsWith(`/${locale}`)
+      ? pathname.replace(`/${locale}`, `/${nextLocale}`)
+      : `/${nextLocale}`;
+    const hash = window.location.hash;
+
+    document.cookie = `locale=${nextLocale}; path=/; max-age=31536000`;
+    window.sessionStorage.setItem(scrollRestoreKey, String(window.scrollY));
+    router.push(`${nextPath}${hash}`, { scroll: false });
+  };
+
+  const languageButtonClass =
+    "rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/80 backdrop-blur-xl transition hover:bg-white/10 hover:text-foreground";
+
   return (
     <div className="fixed inset-x-0 top-4 z-50">
       <div className="mx-auto flex h-12 w-full max-w-6xl items-center justify-end px-6 pr-12 md:justify-center md:pr-6">
-        <nav className="hidden md:flex" aria-label="Primary">
+        <nav className="hidden md:flex" aria-label={copy.nav.ariaLabel}>
           <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-foreground/80 backdrop-blur-xl">
             {navItems.map((item) => (
               <button
@@ -102,7 +147,28 @@ export function SiteHeader() {
             ))}
           </div>
         </nav>
-        <div className="fixed right-6 top-4 z-50 md:hidden" ref={mobileNavRef}>
+        <div className="fixed right-6 top-4 z-50 hidden md:flex">
+          <button
+            type="button"
+            onClick={handleLocaleToggle}
+            aria-label={languageAria}
+            className={languageButtonClass}
+          >
+            {languageLabel}
+          </button>
+        </div>
+        <div
+          className="fixed right-6 top-4 z-50 flex items-center gap-3 md:hidden"
+          ref={mobileNavRef}
+        >
+          <button
+            type="button"
+            onClick={handleLocaleToggle}
+            aria-label={languageAria}
+            className={languageButtonClass}
+          >
+            {languageLabel}
+          </button>
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -110,7 +176,7 @@ export function SiteHeader() {
               isOpen ? "rounded-2xl" : ""
             }`}
           >
-            {isOpen ? "Close" : "Navigate"}
+            {isOpen ? copy.nav.close : copy.nav.navigate}
           </button>
           <AnimatePresence>
             {isOpen ? (

@@ -5,8 +5,13 @@ import ASMRStaticBackground from "@/components/ui/demo";
 import { VideoWithLoader } from "@/components/ui/media-with-loader";
 import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useEffect, useRef } from "react";
+import type { Translations } from "@/i18n/translations";
 
-export function HeroSection() {
+type HeroSectionProps = {
+  copy: Translations["hero"];
+};
+
+export function HeroSection({ copy }: HeroSectionProps) {
   const shouldReduceMotion = usePrefersReducedMotion();
   const mobileVideoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -116,7 +121,7 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-30 mx-auto flex min-h-[70svh] max-w-6xl items-center justify-center px-6 text-center sm:min-h-[70vh]">
         <h1 className="font-display text-[clamp(2.75rem,7vw,6rem)] font-semibold text-foreground">
-          Powered By WebBuilders.
+          {copy.title}
         </h1>
       </div>
     </section>

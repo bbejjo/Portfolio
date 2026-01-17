@@ -11,6 +11,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { AboutSection } from "./AboutSection";
 import { HeroSection } from "./HeroSection";
 import { SiteHeader } from "./SiteHeader";
+import type { Translations } from "@/i18n/translations";
 
 type StackSizes = {
   hero: number;
@@ -23,7 +24,11 @@ const REVEAL_DELAY_VH = 10;     // start reveal after 10vh
 const REVEAL_HOLD_VH = 20;      // keep sticky after full reveal
 const REVEAL_DURATION_VH = 150; // reveal over more scroll for slower coloring
 
-export function HeroAboutStack() {
+type HeroAboutStackProps = {
+  copy: Translations;
+};
+
+export function HeroAboutStack({ copy }: HeroAboutStackProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
 
@@ -160,11 +165,11 @@ export function HeroAboutStack() {
 
   return (
     <div ref={containerRef} className="relative" style={containerStyle}>
-      <SiteHeader />
+      <SiteHeader copy={copy} />
 
       <div ref={heroRef} className="sticky top-0 z-20">
         <motion.div style={{ clipPath }} className="will-change-[clip-path]">
-          <HeroSection />
+          <HeroSection copy={copy.hero} />
         </motion.div>
       </div>
 
@@ -172,6 +177,7 @@ export function HeroAboutStack() {
         <AboutSection
           revealProgress={revealProgressValue}
           minHeight={effectiveMinHeight}
+          copy={copy.about}
         />
       </div>
     </div>

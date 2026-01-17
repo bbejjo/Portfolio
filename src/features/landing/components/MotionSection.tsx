@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { MediaLoader } from "@/components/ui/media-with-loader";
+import type { Translations } from "@/i18n/translations";
 
 type ThrowVector = {
   x: number;
@@ -189,7 +190,11 @@ function ThrowImage({ item, progress, reduceMotion }: ThrowImageProps) {
   );
 }
 
-export function MotionSection() {
+type MotionSectionProps = {
+  copy: Translations["motion"];
+};
+
+export function MotionSection({ copy }: MotionSectionProps) {
   const ref = useRef<HTMLElement | null>(null);
   const reduceMotion = false;
 
@@ -204,9 +209,14 @@ export function MotionSection() {
     [0, 0.35, 0.5, 0]
   );
 
+  const items = throwItems.map((item, index) => ({
+    ...item,
+    alt: copy.itemAlt[index] ?? item.alt,
+  }));
+
   return (
     <section id="motion" ref={ref} className="relative scroll-mt-16 bg-background">
-      <h2 className="sr-only">Motion interlude</h2>
+      <h2 className="sr-only">{copy.srTitle}</h2>
 
       <div className="relative min-h-[500vh]">
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-background">
@@ -217,7 +227,7 @@ export function MotionSection() {
           />
 
           <div className="relative z-10 h-full w-full" aria-hidden="true">
-            {throwItems.map((item) => (
+            {items.map((item) => (
               <ThrowImage
                 key={`${item.src}-${item.delay}`}
                 item={item}

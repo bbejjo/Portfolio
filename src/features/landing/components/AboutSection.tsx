@@ -1,26 +1,21 @@
-"use client";
+﻿"use client";
 
 import { useMemo } from "react";
 import { easeInOut } from "framer-motion";
 import { ImageWithLoader } from "@/components/ui/media-with-loader";
 import { InfiniteSlider } from "../components/InfiniteSlider";
-
-const aboutLines = [
-  "We build high-quality business",
-  "websites that combine strategy,",
-  "performance, and design 👌 helping",
-  "companies grow credibility, attract",
-  "customers.",
-];
+import type { Translations } from "@/i18n/translations";
 
 type AboutSectionProps = {
   revealProgress: number;
   minHeight?: number;
+  copy: Translations["about"];
 };
 
 export function AboutSection({
   revealProgress,
   minHeight,
+  copy,
 }: AboutSectionProps) {
   const easedProgress = easeInOut(revealProgress);
 
@@ -28,7 +23,7 @@ export function AboutSection({
     const revealRegex = /\S/;
     let count = 0;
 
-    const linesWithChars = aboutLines.map((line) =>
+    const linesWithChars = copy.lines.map((line) =>
       Array.from(line).map((char) => {
         if (revealRegex.test(char)) {
           const index = count++;
@@ -39,7 +34,7 @@ export function AboutSection({
     );
 
     return { lines: linesWithChars, revealableCount: count };
-  }, []);
+  }, [copy.lines]);
 
   const revealedCount =
     revealableCount === 0
@@ -66,7 +61,7 @@ export function AboutSection({
           gap-6 lg:gap-20
         "
       >
-        {/* LEFT — Scroll-revealed text */}
+        {/* LEFT ƒ?" Scroll-revealed text */}
         <div className="flex flex-col gap-2 text-left lg:max-w-2xl">
           {lines.map((line, lineIndex) => (
             <div
@@ -95,13 +90,13 @@ export function AboutSection({
           ))}
         </div>
 
-        {/* RIGHT — stacked infinite sliders */}
+        {/* RIGHT ƒ?" stacked infinite sliders */}
         <div className="lg:w-1/3 w-full flex flex-col gap-4">
-          {/* Slider 1 — normal */}
+          {/* Slider 1 ƒ?" normal */}
           <InfiniteSlider duration={18}>
             <ImageWithLoader
               src="/images/slider-dsg.png"
-              alt="Slider 1"
+              alt={copy.sliderAlt.one}
               width={1000}
               height={160}
               className="h-32 w-auto object-contain px-10"
@@ -110,34 +105,33 @@ export function AboutSection({
             />
           </InfiniteSlider>
 
-          {/* Slider 2 — opposite direction */}
+          {/* Slider 2 ƒ?" opposite direction */}
           <InfiniteSlider
-  duration={18}
-  reverse
-className="
-  bg-white/10
-  backdrop-blur-2xl
-  rounded-2xl
-  shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]
-"
->
-  <ImageWithLoader
-    src="/images/slider-bck.png"
-    alt="Slider 2"
-    width={1000}
-    height={160}
-    className="h-32 w-auto object-contain px-10"
-    wrapperClassName="inline-flex overflow-hidden"
-    priority
-  />
-</InfiniteSlider>
+            duration={18}
+            reverse
+            className="
+              bg-white/10
+              backdrop-blur-2xl
+              rounded-2xl
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]
+            "
+          >
+            <ImageWithLoader
+              src="/images/slider-bck.png"
+              alt={copy.sliderAlt.two}
+              width={1000}
+              height={160}
+              className="h-32 w-auto object-contain px-10"
+              wrapperClassName="inline-flex overflow-hidden"
+              priority
+            />
+          </InfiniteSlider>
 
-
-          {/* Slider 3 — normal */}
+          {/* Slider 3 ƒ?" normal */}
           <InfiniteSlider duration={18}>
             <ImageWithLoader
               src="/images/slider-frt.png"
-              alt="Slider 3"
+              alt={copy.sliderAlt.three}
               width={1000}
               height={160}
               className="h-32 w-auto object-contain px-10"

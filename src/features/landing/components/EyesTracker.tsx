@@ -1,15 +1,22 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import type { RobotMode } from "./ContactScene";
+import type { Translations } from "@/i18n/translations";
 
 type EyesTrackerProps = {
   mode: RobotMode;
   emailValue?: string;
   isSubmitSuccess?: boolean;
+  copy: Translations["contact"]["eyes"];
 };
 
-export function EyesTracker({ mode, emailValue = "", isSubmitSuccess = false }: EyesTrackerProps) {
+export function EyesTracker({
+  mode,
+  emailValue = "",
+  isSubmitSuccess = false,
+  copy,
+}: EyesTrackerProps) {
   const [lookDirection, setLookDirection] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [eyesClosed, setEyesClosed] = useState(false);
@@ -157,13 +164,45 @@ export function EyesTracker({ mode, emailValue = "", isSubmitSuccess = false }: 
 
       {/* Status Text */}
       <div className="text-center min-h-10">
-        {isSubmitSuccess && <p className="text-sm text-accent font-semibold animate-bounce">✨ Got your message! We'll respond soon ✨</p>}
-        {!isSubmitSuccess && hasMissingAtSymbol && <p className="text-sm text-accent-2 font-semibold animate-pulse">⚠️ Missing @</p>}
-        {!isSubmitSuccess && !hasMissingAtSymbol && isHolding && <p className="text-sm text-accent/70 font-semibold animate-bounce">🦘 YEA!</p>}
-        {!isSubmitSuccess && !hasMissingAtSymbol && !isHolding && mode === "name" && <p className="text-sm text-accent font-semibold">What a beautiful name!</p>}
-        {!isSubmitSuccess && !hasMissingAtSymbol && !isHolding && mode === "email" && <p className="text-sm text-accent font-semibold">Checking your email...</p>}
-        {!isSubmitSuccess && !hasMissingAtSymbol && !isHolding && mode === "message" && <p className="text-sm text-accent/70 italic">Write whatever you want, I'm not looking.</p>}
-        {!isSubmitSuccess && !hasMissingAtSymbol && !isHolding && mode === "idle" && <p className="text-xs text-muted">Hold me! 👇</p>}
+        {isSubmitSuccess && (
+          <p className="text-sm text-accent font-semibold animate-bounce">
+            {copy.success}
+          </p>
+        )}
+        {!isSubmitSuccess && hasMissingAtSymbol && (
+          <p className="text-sm text-accent-2 font-semibold animate-pulse">
+            {copy.missingAt}
+          </p>
+        )}
+        {!isSubmitSuccess && !hasMissingAtSymbol && isHolding && (
+          <p className="text-sm text-accent/70 font-semibold animate-bounce">
+            {copy.holding}
+          </p>
+        )}
+        {!isSubmitSuccess &&
+          !hasMissingAtSymbol &&
+          !isHolding &&
+          mode === "name" && (
+            <p className="text-sm text-accent font-semibold">{copy.name}</p>
+          )}
+        {!isSubmitSuccess &&
+          !hasMissingAtSymbol &&
+          !isHolding &&
+          mode === "email" && (
+            <p className="text-sm text-accent font-semibold">{copy.email}</p>
+          )}
+        {!isSubmitSuccess &&
+          !hasMissingAtSymbol &&
+          !isHolding &&
+          mode === "message" && (
+            <p className="text-sm text-accent/70 italic">{copy.message}</p>
+          )}
+        {!isSubmitSuccess &&
+          !hasMissingAtSymbol &&
+          !isHolding &&
+          mode === "idle" && (
+            <p className="text-xs text-muted">{copy.idle}</p>
+          )}
       </div>
     </div>
   );

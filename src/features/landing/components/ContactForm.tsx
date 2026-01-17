@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useState, type FormEvent, type RefObject } from "react";
+import type { Translations } from "@/i18n/translations";
 
 type FormState = {
   name: string;
@@ -19,6 +20,7 @@ type ContactFormProps = {
   onBlurField?: (field: ContactField) => void;
   onInputField?: (field: ContactField) => void;
   onSubmitSuccess?: () => void;
+  copy: Translations["contact"]["form"];
 };
 
 const initialState: FormState = {
@@ -37,6 +39,7 @@ export function ContactForm({
   onBlurField,
   onInputField,
   onSubmitSuccess,
+  copy,
 }: ContactFormProps) {
   const [values, setValues] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,22 +49,19 @@ export function ContactForm({
     const nextErrors: FormErrors = {};
 
     if (nextValues.name.trim().length < 2) {
-      nextErrors.name = "Please enter at least 2 characters.";
+      nextErrors.name = copy.errors.name;
     }
     if (!emailPattern.test(nextValues.email)) {
-      nextErrors.email = "Please enter a valid email address.";
+      nextErrors.email = copy.errors.email;
     }
     if (nextValues.message.trim().length < 10) {
-      nextErrors.message = "Message should be at least 10 characters.";
+      nextErrors.message = copy.errors.message;
     }
 
     return nextErrors;
   };
 
-  const handleChange = (
-    field: keyof FormState,
-    value: string,
-  ) => {
+  const handleChange = (field: keyof FormState, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
     setStatus("idle");
@@ -79,14 +79,10 @@ export function ContactForm({
   };
 
   return (
-    <form
-      className="flex flex-col gap-6"
-      noValidate
-      onSubmit={handleSubmit}
-    >
+    <form className="flex flex-col gap-6" noValidate onSubmit={handleSubmit}>
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className="text-sm font-semibold text-foreground">
-          Name
+          {copy.labels.name}
         </label>
         <input
           id="name"
@@ -115,7 +111,7 @@ export function ContactForm({
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="text-sm font-semibold text-foreground">
-          Email
+          {copy.labels.email}
         </label>
         <input
           id="email"
@@ -142,11 +138,8 @@ export function ContactForm({
         ) : null}
       </div>
       <div className="flex flex-col gap-2">
-        <label
-          htmlFor="message"
-          className="text-sm font-semibold text-foreground"
-        >
-          Message
+        <label htmlFor="message" className="text-sm font-semibold text-foreground">
+          {copy.labels.message}
         </label>
         <textarea
           id="message"
@@ -177,16 +170,10 @@ export function ContactForm({
           type="submit"
           className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-background transition hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
         >
-          Send message
+          {copy.submit}
         </button>
-        <p
-          className="text-xs text-muted"
-          aria-live="polite"
-          role="status"
-        >
-          {status === "success"
-            ? "Message captured. Hook up the form to an API route when ready."
-            : "We reply within two business days."}
+        <p className="text-xs text-muted" aria-live="polite" role="status">
+          {status === "success" ? copy.statusSuccess : copy.statusIdle}
         </p>
       </div>
     </form>
