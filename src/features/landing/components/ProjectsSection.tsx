@@ -410,7 +410,7 @@ function MaeliPreview() {
       <div className="mx-auto mt-8 w-full max-w-5xl overflow-hidden rounded-3xl">
         <VideoWithLoader
           ref={videoRef}
-          src="/videos/video.mp4"
+          src="/videos/maeli-AI_small.mp4"
           loop
           muted
           playsInline
