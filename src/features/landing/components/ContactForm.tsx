@@ -31,6 +31,14 @@ const initialState: FormState = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+type FormStatus = "idle" | "sending" | "success" | "error";
+
+const emailJsConfig = {
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim(),
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID?.trim(),
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim(),
+};
+
 export function ContactForm({
   nameRef,
   emailRef,
@@ -43,18 +51,21 @@ export function ContactForm({
 }: ContactFormProps) {
   const [values, setValues] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   const validate = (nextValues: FormState) => {
     const nextErrors: FormErrors = {};
+    const nameValue = nextValues.name.trim();
+    const emailValue = nextValues.email.trim();
+    const messageValue = nextValues.message.trim();
 
-    if (nextValues.name.trim().length < 2) {
+    if (nameValue.length < 2) {
       nextErrors.name = copy.errors.name;
     }
-    if (!emailPattern.test(nextValues.email)) {
+    if (!emailPattern.test(emailValue)) {
       nextErrors.email = copy.errors.email;
     }
-    if (nextValues.message.trim().length < 10) {
+    if (messageValue.length < 10) {
       nextErrors.message = copy.errors.message;
     }
 
@@ -64,17 +75,71 @@ export function ContactForm({
   const handleChange = (field: keyof FormState, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
-    setStatus("idle");
+    setStatus((prev) => (prev === "sending" ? prev : "idle"));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validate(values);
+    if (status === "sending") {
+      return;
+    }
+
+    const sanitizedValues: FormState = {
+      name: values.name.trim(),
+      email: values.email.trim(),
+      message: values.message.trim(),
+    };
+    const nextErrors = validate(sanitizedValues);
     setErrors(nextErrors);
 
-    if (Object.keys(nextErrors).length === 0) {
+    if (Object.keys(nextErrors).length !== 0) {
+      return;
+    }
+
+    if (!emailJsConfig.serviceId || !emailJsConfig.templateId || !emailJsConfig.publicKey) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+
+    try {
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          service_id: emailJsConfig.serviceId,
+          template_id: emailJsConfig.templateId,
+          user_id: emailJsConfig.publicKey,
+          template_params: {
+            name: sanitizedValues.name,
+            from_name: sanitizedValues.name,
+            email: sanitizedValues.email,
+            from_email: sanitizedValues.email,
+            reply_to: sanitizedValues.email,
+            message: sanitizedValues.message,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("EmailJS request failed");
+      }
+
+      setValues(initialState);
+      setErrors({});
       setStatus("success");
       onSubmitSuccess?.();
+    } catch {
+      setStatus("error");
+    } finally {
+      clearTimeout(timeout);
     }
   };
 
@@ -91,6 +156,7 @@ export function ContactForm({
           autoComplete="name"
           required
           minLength={2}
+          disabled={status === "sending"}
           ref={nameRef}
           value={values.name}
           onChange={(event) => {
@@ -119,6 +185,7 @@ export function ContactForm({
           type="email"
           autoComplete="email"
           required
+          disabled={status === "sending"}
           ref={emailRef}
           value={values.email}
           onChange={(event) => {
@@ -147,6 +214,7 @@ export function ContactForm({
           rows={5}
           required
           minLength={10}
+          disabled={status === "sending"}
           ref={messageRef}
           value={values.message}
           onChange={(event) => {
@@ -168,12 +236,19 @@ export function ContactForm({
       <div className="flex flex-col gap-3">
         <button
           type="submit"
-          className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-background transition hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+          disabled={status === "sending"}
+          className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-background transition hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {copy.submit}
+          {status === "sending" ? copy.statusSending : copy.submit}
         </button>
         <p className="text-xs text-muted" aria-live="polite" role="status">
-          {status === "success" ? copy.statusSuccess : copy.statusIdle}
+          {status === "success"
+            ? copy.statusSuccess
+            : status === "error"
+              ? copy.statusError
+              : status === "sending"
+                ? copy.statusSending
+                : copy.statusIdle}
         </p>
       </div>
     </form>

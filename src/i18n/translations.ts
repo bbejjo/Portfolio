@@ -126,7 +126,9 @@ export type Translations = {
         message: string;
       };
       submit: string;
+      statusSending: string;
       statusSuccess: string;
+      statusError: string;
       statusIdle: string;
     };
   };
@@ -308,8 +310,10 @@ const translations: Record<Locale, Translations> = {
           message: "Message should be at least 10 characters.",
         },
         submit: "Send message",
-        statusSuccess:
-          "Message captured. Hook up the form to an API route when ready.",
+        statusSending: "Sending your message...",
+        statusSuccess: "Message sent successfully. We will reply soon.",
+        statusError:
+          "Message could not be sent right now. Please try again in a moment.",
         statusIdle: "We reply within two business days.",
       },
     },
@@ -489,8 +493,10 @@ const translations: Record<Locale, Translations> = {
           message: "შეტყობინება უნდა იყოს მინიმუმ 10 სიმბოლო.",
         },
         submit: "შეტყობინების გაგზავნა",
-        statusSuccess:
-          "შეტყობინება მიღებულია. მზადყოფნის შემთხვევაში დაუკავშირეთ ფორმა API route-ს.",
+        statusSending: "შეტყობინება იგზავნება...",
+        statusSuccess: "შეტყობინება წარმატებით გაიგზავნა. მალე გიპასუხებთ.",
+        statusError:
+          "ახლა შეტყობინების გაგზავნა ვერ მოხერხდა. გთხოვთ სცადოთ ცოტა მოგვიანებით.",
         statusIdle: "ვპასუხობთ ორი სამუშაო დღის განმავლობაში.",
       },
     },
